@@ -12,7 +12,7 @@ namespace Profielwerkstuk
         private GameObject ground;
         private int numTasks;
         
-        public taskManager(GameObject _walls, GameObject _ground, int _numTasks)
+        public TaskManager(GameObject _walls, GameObject _ground, int _numTasks)
         {
             Tasks = new List<Vector3>();
             walls = _walls;

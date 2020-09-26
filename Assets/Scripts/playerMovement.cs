@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace Profielwerkstuk
 {
-    public class playerMovement : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour
     {
 
         public Camera cam;
