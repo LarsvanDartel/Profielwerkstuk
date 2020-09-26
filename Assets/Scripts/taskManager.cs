@@ -35,7 +35,7 @@ namespace Profielwerkstuk
                     float x = (float)Random.random(minX, maxX);
                     float z = (float)Random.random(minZ, maxZ);
                     target = new Vector3(x, y, z);
-                } while (collidesWithWalls(target));
+                } while (!collidesWithWalls(target));
                 Tasks.Add(target);
                 // Debug.Log(target.x + ", " + target.y + ", " + target.z);
             }
