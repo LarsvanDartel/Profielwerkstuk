@@ -609,7 +609,7 @@ MonoBehaviour:
   agent: {fileID: 705498800}
   walls: {fileID: 295921673}
   ground: {fileID: 548004440}
-  numTasks: 10
+  numTasks: 5
   targetIndicator: {fileID: 427995939}
 --- !u!195 &705498800
 NavMeshAgent:
@@ -620,7 +620,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 705498798}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.44
   m_Speed: 2
   m_Acceleration: 5
   avoidancePriority: 50
@@ -985,7 +985,7 @@ MonoBehaviour:
   agent: {fileID: 1625130728}
   walls: {fileID: 295921673}
   ground: {fileID: 548004440}
-  numTasks: 10
+  numTasks: 5
   targetIndicator: {fileID: 1765757420}
 --- !u!195 &1625130728
 NavMeshAgent:
@@ -996,7 +996,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1625130726}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1.46
   m_Speed: 2
   m_Acceleration: 5
   avoidancePriority: 50
