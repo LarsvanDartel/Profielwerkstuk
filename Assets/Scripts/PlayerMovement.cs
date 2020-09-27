@@ -10,7 +10,6 @@ namespace Profielwerkstuk
     {
 
         public NavMeshAgent agent;
-        public GameObject walls;
         public GameObject ground;
         public int numTasks;
         private TaskManager taskManager;
@@ -65,7 +64,7 @@ namespace Profielwerkstuk
                     }
                 }
             }
-            if (status != "DONE" && taskManager.Tasks.Count == 0) status = "DONE";
+            if(status != "DONE" && taskManager.Tasks.Count == 0) status = "DONE";
             for(int i = waitingFor.Count-1; i >= 0; i--)
             {
                 GameObject player = waitingFor[i];
