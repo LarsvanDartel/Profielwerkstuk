@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,15 +6,15 @@ namespace Profielwerkstuk
 {
     public class TaskManager
     {
-        private List<Vector3> Tasks;
-        private GameObject walls;
+        public List<Vector3> Tasks;
+        private NavMeshAgent agent;
         private GameObject ground;
         private int numTasks;
         
-        public TaskManager(GameObject _walls, GameObject _ground, int _numTasks)
+        public TaskManager(GameObject _ground, int _numTasks, NavMeshAgent _agent)
         {
             Tasks = new List<Vector3>();
-            walls = _walls;
+            agent = _agent;
             ground = _ground;
             numTasks = _numTasks;
 
@@ -35,7 +34,7 @@ namespace Profielwerkstuk
                     float x = (float)Random.random(minX, maxX);
                     float z = (float)Random.random(minZ, maxZ);
                     target = new Vector3(x, y, z);
-                } while (!collidesWithWalls(target));
+                } while (!canReach(target));
                 Tasks.Add(target);
                 // Debug.Log(target.x + ", " + target.y + ", " + target.z);
             }
@@ -43,16 +42,10 @@ namespace Profielwerkstuk
             // Debug.Log(Tasks.Count);
         }
 
-        private bool collidesWithWalls(Vector3 point)
+        private bool canReach(Vector3 point)
         {
-            var allWalls = walls.GetComponentsInChildren<Collider>();
-
-            foreach(Collider collider in allWalls)
-            {
-                if (collider.bounds.Contains(point))
-                    return true;
-            }
-            return false;
+            NavMeshPath path = new NavMeshPath();
+            return agent.CalculatePath(point, path) && path.status == NavMeshPathStatus.PathComplete;
         }
 
         private float getPathDistance(NavMeshPath path)
@@ -62,7 +55,7 @@ namespace Profielwerkstuk
             //Debug.Log(path.corners.Length);
             if ((path.status != NavMeshPathStatus.PathInvalid) && (path.corners.Length > 1))
             {
-                Debug.Log("Calculating Distance!");
+                // Debug.Log("Calculating Distance!");
                 for (int i = 1; i < path.corners.Length; i++)
                 {
                     lng += Vector3.Distance(path.corners[i - 1], path.corners[i]);
@@ -70,6 +63,11 @@ namespace Profielwerkstuk
             }
 
             return lng;
+        }
+
+        public void removeTask(Vector3 toRemove)
+        {
+            Tasks.Remove(toRemove);
         }
 
         public Vector3 getTask(NavMeshAgent agent)
@@ -87,6 +85,7 @@ namespace Profielwerkstuk
             // Debug.Log(minDistance);
             for (int i = 1; i < Tasks.Count; i++)
             {
+                if (!canReach(Tasks[i])) continue;
                 agent.CalculatePath(Tasks[i], path);
                 float distance = getPathDistance(path);
                 // Debug.Log(distance); 
@@ -97,7 +96,6 @@ namespace Profielwerkstuk
                     closest = Tasks[i];
                 }
             }
-            Tasks.Remove(closest);
             return closest;
         }
 

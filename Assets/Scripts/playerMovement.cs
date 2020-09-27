@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,42 +9,32 @@ namespace Profielwerkstuk
     public class PlayerMovement : MonoBehaviour
     {
 
-        public Camera cam;
         public NavMeshAgent agent;
         public GameObject walls;
         public GameObject ground;
         public int numTasks;
         private TaskManager taskManager;
-        public GameObject targetIndicator;
         public NavMeshObstacle obstacle;
         public CapsuleCollider triggerCollider;
-
+        private Vector3 target;
+        public string status;
+        private List<GameObject> waitingFor;
         void Start()
         {
-            obstacle.enabled = false;
             agent.autoBraking = false;
-            taskManager = new TaskManager(walls, ground, numTasks);
-            var target = taskManager.getTask(agent);
+            StartCoroutine(deactivateObstacle());   
+            taskManager = new TaskManager(ground, numTasks, agent);
+            target = taskManager.getTask(agent);
             agent.SetDestination(target);
             // targetIndicator.transform.position = target;
-            Debug.Log(name + " is now going to: " + target.x + ", " + target.y + ", " + target.z);
+            // Debug.Log(name + " is now going to: " + target.x + ", " + target.y + ", " + target.z);
+            status = "ACTIVE";
+            waitingFor = new List<GameObject>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            // if (Input.GetMouseButtonDown(0))
-            // {
-            // cast a ray from camera to mouse's position
-            // Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            // RaycastHit hit;
-            // make the agent move to where the ray hit
-            // if (Physics.Raycast(ray, out hit))
-            // {
-            // agent.SetDestination(hit.point);
-            // }
-            // }
-
             // check if agent has reached goal
             if (agent.enabled)
             {
@@ -53,62 +45,92 @@ namespace Profielwerkstuk
                         if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                         {
                             // if reached goal
-                            Debug.Log(name + " reached destination.");
-                            var target = taskManager.getTask(agent);
-                            Debug.Log(name + " is now going to: " + target.x + ", " + target.y + ", " + target.z);
-                            // targetIndicator.transform.position = target;
-                            agent.SetDestination(target);
+                            taskManager.removeTask(target);
                             // If agent has done all tasks:
-                            if (agent.destination.x == 0f && agent.destination.z == 0f)
+                            if (taskManager.Tasks.Count == 0)
                             {
+                                Debug.Log(name + " reached final destination.");
                                 agent.isStopped = true;
-                                triggerCollider.enabled = false;
                                 StartCoroutine(activateObstacle());
+                                status = "DONE";
+                            }
+                            else
+                            {
+                                Debug.Log(name + " reached destination.");
+                                target = taskManager.getTask(agent);
+                                Debug.Log(name + " is now going to: " + target.x + ", " + target.y + ", " + target.z);
+                                // targetIndicator.transform.position = target;
+                                agent.SetDestination(target);
                             }
                         }
                     }
                 }
             }
+
+            for(int i = waitingFor.Count-1; i >= 0; i--)
+            {
+                GameObject player = waitingFor[i];
+                if(player.GetComponent<PlayerMovement>().status == "DONE")
+                {
+                    waitingFor.Remove(player);
+                    if (waitingFor.Count == 0)
+                    {
+                        Debug.Log(name + " is no longer waiting.");
+                        // Debug.Log(name + "'s state is now: ACTIVE");
+                        StartCoroutine(deactivateObstacle());
+                    }
+                    continue;
+                }
+            }
+
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.transform.parent.name != "Players") return;
-            Debug.Log("Player " + other.gameObject.name + " just entered the collider");
-            if (!other.transform.GetComponent<NavMeshObstacle>().isActiveAndEnabled && !obstacle.isActiveAndEnabled)
+            // Debug.Log("Player " + other.gameObject.name + " just entered the collider");
+            if (other.GetComponent<PlayerMovement>().status == "DONE") return;
+            if (transform.GetSiblingIndex() < other.transform.GetSiblingIndex())
             {
-                if (transform.parent.Find(transform.name).GetSiblingIndex() < transform.parent.Find(other.transform.name).GetSiblingIndex())
-                {
-                    Debug.Log(name + "'s state is now: INACTIVE");
-                    StartCoroutine(activateObstacle());
-                }
+                Debug.Log(name + " is now waiting for " + other.name);
+                waitingFor.Add(other.gameObject);
+                // Debug.Log(name + "'s state is now: INACTIVE");
+                StartCoroutine(activateObstacle());
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.transform.parent.name != "Players") return;
-            if (!obstacle.isActiveAndEnabled) return;
-            Debug.Log("Player " + other.gameObject.name + " just Left the collider");
-            Debug.Log(name + "'s state is now: ACTIVE");
-
-            StartCoroutine(deactivateObstacle());
+            if (status == "ACTIVE") return;
+            Debug.Log(name + ": " + other.gameObject.name + " just left the collider");
+            waitingFor.Remove(other.gameObject);
+            if (waitingFor.Count == 0)
+            {
+                Debug.Log(name + " is no longer waiting.");
+                // Debug.Log(name + "'s state is now: ACTIVE");
+                StartCoroutine(deactivateObstacle());
+            }
         }
 
         IEnumerator activateObstacle()
         {
-            agent.isStopped = true;
             agent.enabled = false;
             yield return null;
             obstacle.enabled = true;
+            status = "INACTIVE";
         }
 
         IEnumerator deactivateObstacle()
         {
+            yield return new WaitForSeconds(0.1f);
             obstacle.enabled = false;
             yield return null;
             agent.enabled = true;
-            agent.isStopped = false;
+            target = taskManager.getTask(agent);
+            agent.SetDestination(target);   
+            yield return null;
+            status = "ACTIVE";
         }
 
     }
