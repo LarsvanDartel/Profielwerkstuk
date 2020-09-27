@@ -52,7 +52,6 @@ namespace Profielwerkstuk
                                 Debug.Log(name + " reached final destination.");
                                 agent.isStopped = true;
                                 StartCoroutine(activateObstacle());
-                                status = "DONE";
                             }
                             else
                             {
@@ -66,7 +65,7 @@ namespace Profielwerkstuk
                     }
                 }
             }
-
+            if (status != "DONE" && taskManager.Tasks.Count == 0) status = "DONE";
             for(int i = waitingFor.Count-1; i >= 0; i--)
             {
                 GameObject player = waitingFor[i];
