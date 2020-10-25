@@ -17,11 +17,12 @@ namespace Profielwerkstuk
         public CapsuleCollider triggerCollider;
         private Vector3 target;
         public string status;
-        private List<GameObject> waitingFor;
+        public List<GameObject> waitingFor;
         void Start()
         {
+            agent.enabled = false;
             agent.autoBraking = false;
-            StartCoroutine(deactivateObstacle());   
+            StartCoroutine(deactivateObstacle(false));   
             taskManager = new TaskManager(ground, numTasks, agent);
             target = taskManager.getTask(agent);
             agent.SetDestination(target);
@@ -34,50 +35,53 @@ namespace Profielwerkstuk
         // Update is called once per frame
         void Update()
         {
+
             // check if agent has reached goal
-            if (agent.enabled)
+            if (agent.enabled && !agent.isStopped && status != "SHOPPING")
             {
-                if (!agent.pathPending)
+                var pos = transform.position;
+                if (Vector3.Distance(new Vector3(pos.x, target.y, pos.z), target) <= agent.stoppingDistance + gameObject.GetComponent<CapsuleCollider>().radius)
                 {
-                    if (agent.remainingDistance <= agent.stoppingDistance)
+                    if (taskManager.Tasks.Count == 1)
                     {
-                        if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-                        {
-                            // if reached goal
-                            taskManager.removeTask(target);
-                            // If agent has done all tasks:
-                            if (taskManager.Tasks.Count == 0)
-                            {
-                                Debug.Log(name + " reached final destination.");
-                                agent.isStopped = true;
-                                StartCoroutine(activateObstacle());
-                            }
-                            else
-                            {
-                                Debug.Log(name + " reached destination.");
-                                target = taskManager.getTask(agent);
-                                Debug.Log(name + " is now going to: " + target.x + ", " + target.y + ", " + target.z);
-                                // targetIndicator.transform.position = target;
-                                agent.SetDestination(target);
-                            }
-                        }
+                        taskManager.removeTask(target);
+                        Debug.Log(name + " reached final destination");
+                        StartCoroutine(activateObstacle());
+                    } else {
+                        Debug.Log(name + " reached target: " + (int)target.x + ", " + (int)target.z + ". Postition was: " + (int)pos.x + ", " + (int)pos.z);
+                        StartCoroutine(waitForNextTask(Random.Range(500, 2000)));
                     }
                 }
             }
-            if(status != "DONE" && taskManager.Tasks.Count == 0) status = "DONE";
+            if (status != "DONE" && taskManager.Tasks.Count == 0) 
+            { 
+                status = "DONE";
+                StartCoroutine(activateObstacle());
+            }
             for(int i = waitingFor.Count-1; i >= 0; i--)
             {
                 GameObject player = waitingFor[i];
-                if(player.GetComponent<PlayerMovement>().status == "DONE")
+                PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+                if (playerMovement.status == "DONE")
                 {
                     waitingFor.Remove(player);
                     if (waitingFor.Count == 0)
                     {
                         Debug.Log(name + " is no longer waiting.");
                         // Debug.Log(name + "'s state is now: ACTIVE");
-                        StartCoroutine(deactivateObstacle());
+                        StartCoroutine(deactivateObstacle(false));
                     }
-                    continue;
+                }
+                else if(playerMovement.status == "SHOPPING")
+                {
+                    waitingFor.Remove(player);
+                    playerMovement.waitingFor.Add(gameObject);
+                    if (waitingFor.Count == 0)
+                    {
+                        Debug.Log(name + " is no longer waiting.");
+                        // Debug.Log(name + "'s state is now: ACTIVE");
+                        StartCoroutine(deactivateObstacle(false));
+                    }
                 }
             }
 
@@ -99,7 +103,7 @@ namespace Profielwerkstuk
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.transform.parent.name != "Players") return;
+            if (other.transform.parent.name != "Players") return;
             if (status == "ACTIVE") return;
             Debug.Log(name + ": " + other.gameObject.name + " just left the collider");
             waitingFor.Remove(other.gameObject);
@@ -107,10 +111,23 @@ namespace Profielwerkstuk
             {
                 Debug.Log(name + " is no longer waiting.");
                 // Debug.Log(name + "'s state is now: ACTIVE");
-                StartCoroutine(deactivateObstacle());
+                StartCoroutine(deactivateObstacle(false));
             }
         }
 
+        IEnumerator waitForNextTask(float ms)
+        {
+            Debug.Log(name + " is waiting for " + ms + "ms");
+            status = "SHOPPING";
+            StartCoroutine(activateObstacle());
+            yield return new WaitForSeconds(ms / 1000);
+            Debug.Log(name + " is done waiting.");
+            if (waitingFor.Count == 0)
+            {
+                StartCoroutine(deactivateObstacle(true));
+            }
+            else status = "INACTIVE";
+        }
         IEnumerator activateObstacle()
         {
             agent.enabled = false;
@@ -119,14 +136,18 @@ namespace Profielwerkstuk
             status = "INACTIVE";
         }
 
-        IEnumerator deactivateObstacle()
+        IEnumerator deactivateObstacle(bool newTarget)
         {
-            yield return new WaitForSeconds(0.1f);
             obstacle.enabled = false;
             yield return null;
             agent.enabled = true;
-            target = taskManager.getTask(agent);
-            agent.SetDestination(target);   
+            yield return null;
+            if (newTarget)
+            {
+                taskManager.removeTask(target);
+                target = taskManager.getTask(agent);
+            }
+            else agent.SetDestination(target);
             yield return null;
             status = "ACTIVE";
         }

@@ -31,8 +31,8 @@ namespace Profielwerkstuk
             {
                 Vector3 target;
                 do {
-                    float x = (float)Random.random(minX, maxX);
-                    float z = (float)Random.random(minZ, maxZ);
+                    float x = (float)Random.Range(minX, maxX);
+                    float z = (float)Random.Range(minZ, maxZ);
                     target = new Vector3(x, y, z);
                 } while (!canReach(target));
                 Tasks.Add(target);
