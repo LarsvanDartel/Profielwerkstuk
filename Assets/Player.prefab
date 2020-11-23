@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 5069322866929264922}
   - component: {fileID: 3171728203693291675}
   - component: {fileID: 2430506081927234803}
-  - component: {fileID: 8670876788107179726}
   - component: {fileID: 7503455185727432151}
   - component: {fileID: 6124649064071850760}
+  - component: {fileID: 3544021620164132715}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -135,27 +135,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8670876788107179726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7548967978219277211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 090035c7a070d114890c7b22cc6df4b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  agent: {fileID: 2430506081927234803}
-  walls: {fileID: 0}
-  ground: {fileID: 0}
-  numTasks: 10
-  targetIndicator: {fileID: 0}
-  obstacle: {fileID: 7503455185727432151}
-  triggerCollider: {fileID: 6124649064071850760}
-  status: 
 --- !u!208 &7503455185727432151
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -186,3 +165,25 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3544021620164132715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548967978219277211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcdfd9abe0bb16546bc8d04ff6e3244d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agent: {fileID: 2430506081927234803}
+  ground: {fileID: 0}
+  numTasks: 10
+  obstacle: {fileID: 7503455185727432151}
+  triggerCollider: {fileID: 6124649064071850760}
+  status: 
+  waitingFor: []
+  CoughCloudPrefab: {fileID: 7876065576391416854, guid: 8b5ec2d16ab56f64dbf51d3dd02c525f,
+    type: 3}
+  infected: 0

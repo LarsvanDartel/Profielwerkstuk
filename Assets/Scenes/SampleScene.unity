@@ -504,9 +504,9 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.2
+  m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: c1cf2dfac73bf2e4a83f368c05f5efde, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 9c2efb13b629ae74ead1a87a41cc525f, type: 2}
 --- !u!1 &295921673
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,6 +581,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: ground
+      value: 
+      objectReference: {fileID: 548004440}
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1535,6 +1540,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: ground
+      value: 
+      objectReference: {fileID: 548004440}
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2127,6 +2137,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: ground
+      value: 
+      objectReference: {fileID: 548004440}
     - target: {fileID: 5069322866929264922, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_Constraints
@@ -3850,6 +3865,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: ground
+      value: 
+      objectReference: {fileID: 548004440}
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalPosition.x

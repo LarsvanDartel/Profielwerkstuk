@@ -10,7 +10,7 @@ namespace Profielwerkstuk
         private NavMeshAgent agent;
         private GameObject ground;
         private int numTasks;
-        
+
         public TaskManager(GameObject _ground, int _numTasks, NavMeshAgent _agent)
         {
             Tasks = new List<Vector3>();
@@ -22,7 +22,7 @@ namespace Profielwerkstuk
             var maxX = ground.transform.position.x + ground.transform.localScale.x / 2;
             var minZ = ground.transform.position.z - ground.transform.localScale.z / 2;
             var maxZ = ground.transform.position.z + ground.transform.localScale.z / 2;
-            var y = ground.transform.position.y + ground.transform.localScale.y / 2;
+            var y = 1;
 
             // Debug.Log("X-range: " + minX + ", " + maxX);
             // Debug.Log("Z-range: " + minZ + ", " + maxZ);
@@ -30,10 +30,12 @@ namespace Profielwerkstuk
             for (int i = 0; i < numTasks; i++)
             {
                 Vector3 target;
-                do {
+                do
+                {
                     float x = (float)Random.Range(minX, maxX);
                     float z = (float)Random.Range(minZ, maxZ);
                     target = new Vector3(x, y, z);
+                    // Debug.Log("canReach(target: " + x + ", " + y + ", " + z + ") = " + canReach(target));
                 } while (!canReach(target));
                 Tasks.Add(target);
                 // Debug.Log(target.x + ", " + target.y + ", " + target.z);
@@ -74,7 +76,7 @@ namespace Profielwerkstuk
         {
 
             // Debug.Log("There are " + Tasks.Count + " tasks left.");
-            if(Tasks.Count == 0)
+            if (Tasks.Count == 0)
             {
                 return new Vector3(0, 0, 0);
             }
@@ -89,7 +91,7 @@ namespace Profielwerkstuk
                 agent.CalculatePath(Tasks[i], path);
                 float distance = getPathDistance(path);
                 // Debug.Log(distance); 
-                if(distance < minDistance)
+                if (distance < minDistance)
                 {
                     // Debug.Log("Distance was altered");
                     minDistance = distance;

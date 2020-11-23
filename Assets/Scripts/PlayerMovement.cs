@@ -18,11 +18,21 @@ namespace Profielwerkstuk
         private Vector3 target;
         public string status;
         public List<GameObject> waitingFor;
+        public GameObject CoughCloudPrefab;
+
+        public bool infected = false;
+
         void Start()
         {
-            agent.enabled = false;
+
+            if(Random.Range(0, 100) >= 50)
+            {
+                Debug.Log(name + " is infected");
+                infected = true;
+            }
+
+            obstacle.enabled = false;
             agent.autoBraking = false;
-            StartCoroutine(deactivateObstacle(false));   
             taskManager = new TaskManager(ground, numTasks, agent);
             target = taskManager.getTask(agent);
             agent.SetDestination(target);
@@ -35,7 +45,13 @@ namespace Profielwerkstuk
         // Update is called once per frame
         void Update()
         {
-
+            if (infected)
+            {
+                if((Time.frameCount%1000) == 0)
+                {
+                    Debug.Log("Cough Cough");
+                }
+            }
             // check if agent has reached goal
             if (agent.enabled && !agent.isStopped && status != "SHOPPING")
             {
@@ -47,18 +63,20 @@ namespace Profielwerkstuk
                         taskManager.removeTask(target);
                         Debug.Log(name + " reached final destination");
                         StartCoroutine(activateObstacle());
-                    } else {
+                    }
+                    else
+                    {
                         Debug.Log(name + " reached target: " + (int)target.x + ", " + (int)target.z + ". Postition was: " + (int)pos.x + ", " + (int)pos.z);
                         StartCoroutine(waitForNextTask(Random.Range(500, 2000)));
                     }
                 }
             }
-            if (status != "DONE" && taskManager.Tasks.Count == 0) 
-            { 
+            if (status != "DONE" && taskManager.Tasks.Count == 0)
+            {
                 status = "DONE";
                 StartCoroutine(activateObstacle());
             }
-            for(int i = waitingFor.Count-1; i >= 0; i--)
+            for (int i = waitingFor.Count - 1; i >= 0; i--)
             {
                 GameObject player = waitingFor[i];
                 PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
@@ -72,7 +90,7 @@ namespace Profielwerkstuk
                         StartCoroutine(deactivateObstacle(false));
                     }
                 }
-                else if(playerMovement.status == "SHOPPING")
+                else if (playerMovement.status == "SHOPPING")
                 {
                     waitingFor.Remove(player);
                     playerMovement.waitingFor.Add(gameObject);
@@ -141,13 +159,13 @@ namespace Profielwerkstuk
             obstacle.enabled = false;
             yield return null;
             agent.enabled = true;
-            yield return null;
+            yield return new WaitForEndOfFrame();
             if (newTarget)
             {
                 taskManager.removeTask(target);
                 target = taskManager.getTask(agent);
             }
-            else agent.SetDestination(target);
+            agent.SetDestination(target);
             yield return null;
             status = "ACTIVE";
         }
