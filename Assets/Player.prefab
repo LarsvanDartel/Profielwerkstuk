@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b12e8326696556e4b9776b5694fbc9aa, type: 2}
+  - {fileID: 2100000, guid: 7041872b27278784b8bfecc0af87d8bd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -184,6 +184,8 @@ MonoBehaviour:
   triggerCollider: {fileID: 6124649064071850760}
   status: 
   waitingFor: []
-  CoughCloudPrefab: {fileID: 7876065576391416854, guid: 8b5ec2d16ab56f64dbf51d3dd02c525f,
+  coughCloudPrefab: {fileID: 7876065576391416854, guid: 8b5ec2d16ab56f64dbf51d3dd02c525f,
     type: 3}
+  infectedMaterial: {fileID: 2100000, guid: ec6b05cd6cf263a468fa2dd4ad941b43, type: 2}
+  coughCloudParent: {fileID: 0}
   infected: 0

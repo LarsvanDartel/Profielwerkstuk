@@ -579,13 +579,18 @@ PrefabInstance:
     - target: {fileID: 3171728203693291675, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: ground
       value: 
       objectReference: {fileID: 548004440}
+    - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: coughCloudParent
+      value: 
+      objectReference: {fileID: 858312196}
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -639,6 +644,11 @@ PrefabInstance:
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503455185727432151, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
@@ -1538,13 +1548,18 @@ PrefabInstance:
     - target: {fileID: 3171728203693291675, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: ground
       value: 
       objectReference: {fileID: 548004440}
+    - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: coughCloudParent
+      value: 
+      objectReference: {fileID: 858312196}
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1598,6 +1613,11 @@ PrefabInstance:
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503455185727432151, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
@@ -2040,6 +2060,36 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 635353597}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &858312196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 858312197}
+  m_Layer: 0
+  m_Name: CoughClouds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &858312197
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858312196}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.023510695, y: 8.712807, z: -1.6328063}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &878784082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2135,13 +2185,18 @@ PrefabInstance:
     - target: {fileID: 3171728203693291675, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: ground
       value: 
       objectReference: {fileID: 548004440}
+    - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: coughCloudParent
+      value: 
+      objectReference: {fileID: 858312196}
     - target: {fileID: 5069322866929264922, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_Constraints
@@ -2200,6 +2255,11 @@ PrefabInstance:
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503455185727432151, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
@@ -3863,13 +3923,18 @@ PrefabInstance:
     - target: {fileID: 3171728203693291675, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: ground
       value: 
       objectReference: {fileID: 548004440}
+    - target: {fileID: 3544021620164132715, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: coughCloudParent
+      value: 
+      objectReference: {fileID: 858312196}
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3923,6 +3988,11 @@ PrefabInstance:
     - target: {fileID: 5930709319900523121, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7503455185727432151, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,

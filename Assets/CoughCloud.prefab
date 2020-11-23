@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1541710340751729158}
   - component: {fileID: 3531500218942495640}
   - component: {fileID: 114984645075765852}
+  - component: {fileID: 54867680925670422}
   m_Layer: 0
   m_Name: CoughCloud
   m_TagString: Untagged
@@ -104,3 +105,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3e14a8643de8744188e8d2f282ca1a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &54867680925670422
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7876065576391416854}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
