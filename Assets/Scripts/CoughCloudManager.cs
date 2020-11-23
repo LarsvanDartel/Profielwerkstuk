@@ -11,17 +11,17 @@ namespace Profielwerkstuk {
         {
             playersInCloud = new List<PlayerMovement>();
             infectionRate = 1.0f;
-            StartCoroutine(destroyIn(5000));
+            StartCoroutine(destroyIn(Mathf.FloorToInt(5000/Time.timeScale)));
 
         }
 
         void Update()
         {
             var newScale = transform.localScale;
-            newScale += new Vector3(sizeIncrease, sizeIncrease, sizeIncrease);
+            newScale += new Vector3(sizeIncrease*Time.deltaTime*60, sizeIncrease*Time.deltaTime*60, sizeIncrease*Time.deltaTime*60);
             transform.localScale = newScale;
 
-            infectionRate -= Mathf.Pow(sizeIncrease, 3);
+            infectionRate -= Mathf.Pow(sizeIncrease*Time.deltaTime*60, 3);
 
             for(int i = playersInCloud.Count-1; i >= 0; i++)
             {

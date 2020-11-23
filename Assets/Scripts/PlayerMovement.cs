@@ -23,15 +23,20 @@ namespace Profielwerkstuk
         public GameObject coughCloudParent;
         public bool infected = false;
 
+        private float timeSinceLastCough = 0.0f;
+        private float timeUntilCough = 0.0f;
+
         void Start()
         {
-
+            Time.timeScale = 1.0f;
             if(Random.Range(0, 100) >= 50)
             {
                 Debug.Log(name + " is infected");
                 infected = true;
                 gameObject.GetComponent<MeshRenderer>().material = infectedMaterial;
             }
+
+            timeUntilCough = Random.Range(10.0f, 30.0f);
 
             obstacle.enabled = false;
             agent.autoBraking = false;
@@ -48,10 +53,18 @@ namespace Profielwerkstuk
         void Update()
         {
             transform.GetComponent<Rigidbody>().velocity.Set(0, 0, 0);
+            transform.GetComponent<Rigidbody>().rotation.Set(0, 0, 0, 0);
+
+            
+
             if (infected)
             {
-                if((Time.frameCount%500) == 0 && Random.Range(0.0f, 1.0f) > 0.5f)
+                print(timeSinceLastCough);
+                timeSinceLastCough += Time.deltaTime;
+                if(timeUntilCough < timeSinceLastCough)
                 {
+                    timeSinceLastCough = 0.0f;
+                    timeUntilCough = Random.Range(10.0f, 30.0f);
                     GameObject p = Instantiate(coughCloudPrefab, transform.position, transform.rotation);
                     p.transform.GetComponent<Rigidbody>().velocity = transform.forward * 0.7f;
                     p.transform.SetParent(coughCloudParent.transform);
