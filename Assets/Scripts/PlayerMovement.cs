@@ -28,7 +28,7 @@ namespace Profielwerkstuk
 
         void Start()
         {
-            Time.timeScale = 1.0f;
+            Time.timeScale = 10.0f;
             if(Random.Range(0, 100) >= 50)
             {
                 Debug.Log(name + " is infected");
