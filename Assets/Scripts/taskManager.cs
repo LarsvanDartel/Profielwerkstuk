@@ -7,41 +7,15 @@ namespace Profielwerkstuk
     public class TaskManager
     {
         public List<Vector3> Tasks;
+        public Vector3 registerPos;
+        public Vector3 leavingPos;
+
         private NavMeshAgent agent;
-        private GameObject ground;
-        private int numTasks;
 
-        public TaskManager(GameObject _ground, int _numTasks, NavMeshAgent _agent)
+        public TaskManager(NavMeshAgent _agent)
         {
-            Tasks = new List<Vector3>();
             agent = _agent;
-            ground = _ground;
-            numTasks = _numTasks;
-
-            var minX = ground.transform.position.x - ground.transform.localScale.x / 2;
-            var maxX = ground.transform.position.x + ground.transform.localScale.x / 2;
-            var minZ = ground.transform.position.z - ground.transform.localScale.z / 2;
-            var maxZ = ground.transform.position.z + ground.transform.localScale.z / 2;
-            var y = 1;
-
-            // Debug.Log("X-range: " + minX + ", " + maxX);
-            // Debug.Log("Z-range: " + minZ + ", " + maxZ);
-
-            for (int i = 0; i < numTasks; i++)
-            {
-                Vector3 target;
-                do
-                {
-                    float x = (float)Random.Range(minX, maxX);
-                    float z = (float)Random.Range(minZ, maxZ);
-                    target = new Vector3(x, y, z);
-                    // Debug.Log("canReach(target: " + x + ", " + y + ", " + z + ") = " + canReach(target));
-                } while (!canReach(target));
-                Tasks.Add(target);
-                // Debug.Log(target.x + ", " + target.y + ", " + target.z);
-            }
-            // Debug.Log(Tasks);
-            // Debug.Log(Tasks.Count);
+            Tasks = new List<Vector3>();
         }
 
         private bool canReach(Vector3 point)
@@ -72,7 +46,7 @@ namespace Profielwerkstuk
             Tasks.Remove(toRemove);
         }
 
-        public Vector3 getTask(NavMeshAgent agent)
+        public Vector3 getTask()
         {
 
             // Debug.Log("There are " + Tasks.Count + " tasks left.");
@@ -100,6 +74,33 @@ namespace Profielwerkstuk
             }
             return closest;
         }
+        private Vector3 getPos(Transform area)
+        {
+            var minX = area.position.x - area.localScale.x / 2;
+            var maxX = area.position.x + area.localScale.x / 2;
+            var minZ = area.position.z - area.localScale.z / 2;
+            var maxZ = area.position.z + area.localScale.z / 2;
+            var y = area.position.y + area.localScale.y / 2;
 
+            Vector3 target;
+            do
+            {
+                float x = Random.Range(minX, maxX);
+                float z = Random.Range(minZ, maxZ);
+                target = new Vector3(x, y, z);
+            } while (!canReach(target));
+            return target;
+        }
+        public void addPos(string type, Transform area)
+        {
+            if (type == "register") registerPos = getPos(area);
+            else if (type == "leaving") leavingPos = getPos(area);
+        }
+
+        public void addTaskInArea(Transform area)
+        {
+            
+            Tasks.Add(getPos(area));
+        }
     }
 }
