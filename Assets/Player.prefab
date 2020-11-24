@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3811989848479755846}
   - component: {fileID: 2598288426641397788}
   - component: {fileID: 5069322866929264922}
-  - component: {fileID: 3171728203693291675}
   - component: {fileID: 2430506081927234803}
   - component: {fileID: 7503455185727432151}
   - component: {fileID: 6124649064071850760}
@@ -99,20 +98,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &3171728203693291675
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7548967978219277211}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &2430506081927234803
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -142,7 +127,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7548967978219277211}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
   m_Extents: {x: 1.5, y: 1, z: 1.5}
@@ -178,10 +163,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2430506081927234803}
-  ground: {fileID: 0}
   numTasks: 10
   obstacle: {fileID: 7503455185727432151}
   triggerCollider: {fileID: 6124649064071850760}
+  target: {x: 0, y: 0, z: 0}
   status: 
   waitingFor: []
   coughCloudPrefab: {fileID: 7876065576391416854, guid: 8b5ec2d16ab56f64dbf51d3dd02c525f,
