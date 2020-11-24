@@ -44,24 +44,25 @@ namespace Profielwerkstuk {
             print("taskArea done");
 
             GameObject registerArea = new GameObject("RegisterArea");
+            registerArea.transform.parent = mapParent;
             registerArea.transform.position = map.registerArea.pos;
             registerArea.transform.localScale = map.registerArea.size;
-            registerArea.transform.parent = mapParent;
             flowManager.registerGround = registerArea.transform;
             print("registerArea done");
 
             GameObject leavingArea = new GameObject("LeavingArea");
+            leavingArea.transform.parent = mapParent;
             leavingArea.transform.position = map.leavingArea.pos;
             leavingArea.transform.localScale = map.leavingArea.size;
-            leavingArea.transform.parent = mapParent;
             flowManager.leavingGround = leavingArea.transform;
             print("leavingArea done");
 
             //print(map.spawningArea.pos);
             GameObject spawningArea = new GameObject("SpawningArea");
+            spawningArea.transform.parent = mapParent;
             spawningArea.transform.position = map.spawningArea.pos;
             spawningArea.transform.localScale = map.spawningArea.size;
-            spawningArea.transform.parent = mapParent;
+            
             flowManager.spawningGround = spawningArea.transform;
             print("spawningArea done");
             print(Time.frameCount);
