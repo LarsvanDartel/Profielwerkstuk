@@ -59,7 +59,7 @@ namespace Profielwerkstuk
 
             if (infected)
             {
-                print(timeSinceLastCough);
+                // print(timeSinceLastCough);
                 timeSinceLastCough += Time.deltaTime;
                 if(timeUntilCough < timeSinceLastCough)
                 {
@@ -138,10 +138,11 @@ namespace Profielwerkstuk
                 waitingFor.Add(other.gameObject);
                 // Debug.Log(name + "'s state is now: INACTIVE");
                 StartCoroutine(activateObstacle());
+                status = "INACTIVE";
             }
             else
             {
-                target = taskManager.getTask(agent);
+                if(status == "ACTIVE") target = taskManager.getTask(agent);
             }
         }
 
@@ -175,7 +176,6 @@ namespace Profielwerkstuk
             agent.enabled = false;
             yield return null;
             obstacle.enabled = true;
-            status = "INACTIVE";
         }
 
         IEnumerator deactivateObstacle()
