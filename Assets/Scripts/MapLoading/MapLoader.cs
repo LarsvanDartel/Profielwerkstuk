@@ -1,19 +1,20 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Profielwerkstuk { 
-    public class ConfigLoader : MonoBehaviour
+namespace Profielwerkstuk {
+    
+    public class MapLoader : MonoBehaviour
     {
         public TextAsset JSONFile;
-        private EmptyConfig config;
+        private Map map;
         // Start is called before the first frame update
         void Start()
         {
-            config = JsonUtility.FromJson<EmptyConfig>(JSONFile.ToString());
+            print("what");
+            map = JsonUtility.FromJson<Map>(JSONFile.ToString());
 
-            print(EmptyConfig.speed);
-            // Time.timeScale = config.speed;
+            print(map.shelves[0].pos.x);
         }
 
         // Update is called once per frame
