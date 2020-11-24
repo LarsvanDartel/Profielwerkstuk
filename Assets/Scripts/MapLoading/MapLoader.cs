@@ -9,6 +9,8 @@ namespace Profielwerkstuk {
         public TextAsset JSONFile;
         private Map map;
 
+        public Transform mapParent;
+
         public GameObject shelfParent;
         public GameObject registerParent;
         public GameObject doorParent;
@@ -19,16 +21,52 @@ namespace Profielwerkstuk {
         public GameObject doorPrefab;
         public GameObject wallPrefab;
 
+        public FlowManager flowManager;
         // Start is called before the first frame update
         void Start()
         {
-            map = JsonUtility.FromJson<Map>(JSONFile.ToString());
+            map = new Map();
+            JsonUtility.FromJsonOverwrite(JSONFile.ToString(), map);
             
+           
+
             buildMap(map);
+        
         }
 
         void buildMap(Map map)
         {
+            GameObject taskArea = new GameObject("TaskArea");
+            taskArea.transform.position = map.taskArea.pos;
+            taskArea.transform.localScale = map.taskArea.size;
+            taskArea.transform.parent = mapParent;
+            flowManager.taskGround = taskArea.transform;
+            print("taskArea done");
+
+            GameObject registerArea = new GameObject("RegisterArea");
+            registerArea.transform.position = map.registerArea.pos;
+            registerArea.transform.localScale = map.registerArea.size;
+            registerArea.transform.parent = mapParent;
+            flowManager.registerGround = registerArea.transform;
+            print("registerArea done");
+
+            GameObject leavingArea = new GameObject("LeavingArea");
+            leavingArea.transform.position = map.leavingArea.pos;
+            leavingArea.transform.localScale = map.leavingArea.size;
+            leavingArea.transform.parent = mapParent;
+            flowManager.leavingGround = leavingArea.transform;
+            print("leavingArea done");
+
+            //print(map.spawningArea.pos);
+            GameObject spawningArea = new GameObject("SpawningArea");
+            spawningArea.transform.position = map.spawningArea.pos;
+            spawningArea.transform.localScale = map.spawningArea.size;
+            spawningArea.transform.parent = mapParent;
+            flowManager.spawningGround = spawningArea.transform;
+            print("spawningArea done");
+            print(Time.frameCount);
+
+
             foreach (Block shelf in map.shelves) {
                 Instantiate(shelfPrefab, shelf.pos, new Quaternion(), shelfParent.transform).transform.localScale = shelf.size;
                 //yield return new WaitForSecondsRealtime(0.1f);

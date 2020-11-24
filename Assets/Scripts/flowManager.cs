@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace Profielwerkstuk
 {
-    public class flowManager : MonoBehaviour
+    public class FlowManager : MonoBehaviour
     {
 
         // private float time = 0.0f;
