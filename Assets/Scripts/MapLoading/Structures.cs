@@ -6,21 +6,16 @@ namespace Profielwerkstuk {
     [System.Serializable]
     public class Map
     {
-        public Block[] shelves;
-        public Block[] registers;
-        public Block[] walls;
-        public Block[] doors;
+        public List<Block> shelves = new List<Block>();
+        public List<Block> registers = new List<Block>();
+        public List<Block> walls = new List<Block>();
+        public List<Block> doors = new List<Block>();
+
     }
     [System.Serializable]
     public class Block
     {
         public Vector3 pos;
         public Vector3 size;
-        public Block(float x, float y, float z, float x1, float y1, float z1) // length
-        {
-            pos = new Vector3(x, y, z);
-            size = new Vector3(x1, y1, z1);
-            
-        }
     }
 }
