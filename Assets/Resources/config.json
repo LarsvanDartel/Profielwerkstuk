@@ -2,8 +2,9 @@
     "speed": 10,
     "coughCloudIncrease": 0.02,
     "infectionRateCC": 1,
+    "coughDuration": 5,
     "minCough": 10,
     "maxCough": 30,
     "chanceInfected": 0.5,
-    "spawnPerHour": 10
+    "spawnsPerHour": 10
 }

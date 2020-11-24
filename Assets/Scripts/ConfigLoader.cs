@@ -12,13 +12,14 @@ namespace Profielwerkstuk {
         {
             config = JsonUtility.FromJson<EmptyConfig>(JSONFile.ToString());
 
-            Config.speed = config.speed;
-            Config.coughCloudIncrease = config.coughCloudIncrease;
+            Config.speed = config.speed; 
+            Config.coughCloudIncrease = config.coughCloudIncrease; 
             Config.infectionRateCC = config.infectionRateCC; 
-            Config.minCough = config.infectionRateCC; 
-            Config.maxCough = config.maxCough; 
-            Config.chanceInfected = config.chanceInfected;
-            Config.spawnsPerHour = config.spawnsPerHour; 
+            Config.coughDuration = config.coughDuration; 
+            Config.minCough = config.minCough;  
+            Config.maxCough = config.maxCough;  
+            Config.chanceInfected = config.chanceInfected; 
+            Config.spawnsPerHour = config.spawnsPerHour;  
         }
 
         // Update is called once per frame

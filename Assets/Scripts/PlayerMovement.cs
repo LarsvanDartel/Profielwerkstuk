@@ -27,7 +27,7 @@ namespace Profielwerkstuk
         void Start()
         {
             taskManager = new TaskManager(agent);
-            timeUntilCough = Random.Range(10.0f, 30.0f);
+            timeUntilCough = Random.Range(Config.minCough, Config.maxCough);
             obstacle.enabled = false;
             agent.autoBraking = false;
             status = "ASSIGNING";
@@ -53,7 +53,7 @@ namespace Profielwerkstuk
                 if(timeUntilCough < timeSinceLastCough)
                 {
                     timeSinceLastCough = 0.0f;
-                    timeUntilCough = Random.Range(10.0f, 30.0f);
+                    timeUntilCough = Random.Range(Config.minCough, Config.maxCough);
                     GameObject p = Instantiate(coughCloudPrefab, transform.position, transform.rotation, coughCloudParent);
                     p.transform.GetComponent<Rigidbody>().velocity = transform.forward * 0.7f;
                 }

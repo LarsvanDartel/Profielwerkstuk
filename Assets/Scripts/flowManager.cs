@@ -29,12 +29,13 @@ namespace Profielwerkstuk
         // Start is called before the first frame update
         void Start()
         {
-            Time.timeScale = 10.0f;
-            StartCoroutine(spawnPlayers(50));
+            Time.timeScale = Config.speed;
+            StartCoroutine(spawnPlayers((int)Config.spawnsPerHour));
         }
 
         IEnumerator spawnPlayers(int numPlayers)
         {
+            yield return null;
 
             var minX = spawningGround.position.x - spawningGround.localScale.x / 2;
             var maxX = spawningGround.position.x + spawningGround.localScale.x / 2;
@@ -46,7 +47,7 @@ namespace Profielwerkstuk
             for (int i = 0; i < numPlayers; i++)
             {
                 // print("Spawning player " + (i + 1));
-            
+
                 // Generates starting position
                 float x = Random.Range(minX, maxX);
                 float z = Random.Range(minZ, maxZ);
@@ -60,7 +61,7 @@ namespace Profielwerkstuk
                 playerMovement.coughCloudParent = coughClouds;
 
                 // Infects player
-                if (Random.Range(0, 100) >= 50)
+                if (Random.Range(0.0f, 1.0f) >= Config.chanceInfected)
                 {
                     playerMovement.infected = true;
                     player.GetComponent<MeshRenderer>().material = playerMovement.infectedMaterial;
@@ -81,6 +82,7 @@ namespace Profielwerkstuk
 
                 playerMovement.status = "ACTIVE";
                 yield return new WaitForSeconds(35);
+
             }
         }
 

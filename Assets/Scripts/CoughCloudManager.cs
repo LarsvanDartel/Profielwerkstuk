@@ -5,23 +5,23 @@ namespace Profielwerkstuk {
     public class CoughCloudManager : MonoBehaviour
     {
         public float infectionRate;
-        private float sizeIncrease = 0.02f;
+        private float sizeIncrease = Config.coughCloudIncrease * Config.speed * 60;
         private List<PlayerMovement> playersInCloud;
         void Start()
         {
             playersInCloud = new List<PlayerMovement>();
-            infectionRate = 1.0f;
-            StartCoroutine(destroyIn(Mathf.FloorToInt(5000/Time.timeScale)));
+            infectionRate = Config.infectionRateCC;
+            StartCoroutine(destroyIn(Config.coughDuration/Config.speed));
 
         }
 
         void Update()
         {
             var newScale = transform.localScale;
-            newScale += new Vector3(sizeIncrease*Time.deltaTime*60, sizeIncrease*Time.deltaTime*60, sizeIncrease*Time.deltaTime*60);
+            newScale *= (1+sizeIncrease);
             transform.localScale = newScale;
 
-            infectionRate -= Mathf.Pow(sizeIncrease*Time.deltaTime*60, 3);
+            infectionRate /= Mathf.Pow((1+sizeIncrease), 3);
 
             for(int i = playersInCloud.Count-1; i >= 0; i--)
             {
@@ -35,9 +35,9 @@ namespace Profielwerkstuk {
         }
 
 
-        IEnumerator destroyIn(int ms)
+        IEnumerator destroyIn(float s)
         {
-            yield return new WaitForSeconds(ms / 1000);
+            yield return new WaitForSeconds(s);
             Destroy(gameObject);
         }
 

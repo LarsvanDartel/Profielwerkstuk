@@ -548,7 +548,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1760870595}
   - component: {fileID: 1760870596}
+<<<<<<< HEAD
   - component: {fileID: 1760870597}
+=======
+>>>>>>> b8d13bfdccacfe0ca66863f9c9075a2e3cedf078
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
