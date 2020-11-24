@@ -76,11 +76,11 @@ namespace Profielwerkstuk
         }
         private Vector3 getPos(Transform area)
         {
-            var minX = area.position.x - area.localScale.x / 2;
-            var maxX = area.position.x + area.localScale.x / 2;
-            var minZ = area.position.z - area.localScale.z / 2;
-            var maxZ = area.position.z + area.localScale.z / 2;
-            var y = area.position.y + area.localScale.y / 2;
+            float minX = area.position.x - area.localScale.x / 2;
+            float maxX = area.position.x + area.localScale.x / 2;
+            float minZ = area.position.z - area.localScale.z / 2;
+            float maxZ = area.position.z + area.localScale.z / 2;
+            float y = area.position.y + area.localScale.y / 2;
 
             Vector3 target;
             do
@@ -93,13 +93,18 @@ namespace Profielwerkstuk
         }
         public void addPos(string type, Transform area)
         {
-            if (type == "register") registerPos = getPos(area);
-            else if (type == "leaving") leavingPos = getPos(area);
+            if (type == "register")
+            {
+                registerPos = getPos(area);
+            }
+            else if (type == "leaving")
+            {
+                leavingPos = getPos(area);
+            }
         }
 
         public void addTaskInArea(Transform area)
         {
-            
             Tasks.Add(getPos(area));
         }
     }

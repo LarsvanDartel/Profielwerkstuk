@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5930709319900523121}
   - component: {fileID: 3811989848479755846}
   - component: {fileID: 2598288426641397788}
+  - component: {fileID: 136697985293010956}
   - component: {fileID: 5069322866929264922}
   - component: {fileID: 2430506081927234803}
   - component: {fileID: 7503455185727432151}
@@ -82,6 +83,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &136697985293010956
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548967978219277211}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &5069322866929264922
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -96,7 +111,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!195 &2430506081927234803
 NavMeshAgent:
@@ -163,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2430506081927234803}
-  numTasks: 10
+  numTasks: 0
   obstacle: {fileID: 7503455185727432151}
   triggerCollider: {fileID: 6124649064071850760}
   target: {x: 0, y: 0, z: 0}

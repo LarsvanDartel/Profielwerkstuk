@@ -30,7 +30,7 @@ namespace Profielwerkstuk
         void Start()
         {
             Time.timeScale = 10.0f;
-            StartCoroutine(spawnPlayers(5));
+            StartCoroutine(spawnPlayers(50));
         }
 
         IEnumerator spawnPlayers(int numPlayers)
@@ -80,7 +80,7 @@ namespace Profielwerkstuk
                 agent.SetDestination(playerMovement.target);
 
                 playerMovement.status = "ACTIVE";
-                yield return new WaitForSeconds(10);
+                yield return new WaitForSeconds(35);
             }
         }
 
