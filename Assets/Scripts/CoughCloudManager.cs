@@ -23,7 +23,7 @@ namespace Profielwerkstuk {
 
             infectionRate -= Mathf.Pow(sizeIncrease*Time.deltaTime*60, 3);
 
-            for(int i = playersInCloud.Count-1; i >= 0; i++)
+            for(int i = playersInCloud.Count-1; i >= 0; i--)
             {
                 var player = playersInCloud[i];
                 if (Random.Range(0.0f, 1.0f) < infectionRate)
