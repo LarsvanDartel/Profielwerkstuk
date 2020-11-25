@@ -37,10 +37,10 @@ namespace Profielwerkstuk {
         void buildMap(Map map)
         {
             GameObject taskArea = new GameObject("TaskArea");
-            taskArea.transform.position = map.taskArea.pos;
-            taskArea.transform.localScale = map.taskArea.size;
-            taskArea.transform.rotation = new Quaternion();
             taskArea.transform.parent = mapParent;
+            taskArea.transform.position = map.taskArea.pos;
+            taskArea.transform.rotation = new Quaternion();
+            taskArea.transform.localScale = map.taskArea.size;
             flowManager.taskGround = taskArea.transform;
 
             GameObject registerArea = new GameObject("RegisterArea");
