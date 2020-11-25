@@ -39,33 +39,32 @@ namespace Profielwerkstuk {
             GameObject taskArea = new GameObject("TaskArea");
             taskArea.transform.position = map.taskArea.pos;
             taskArea.transform.localScale = map.taskArea.size;
+            taskArea.transform.rotation = new Quaternion();
             taskArea.transform.parent = mapParent;
             flowManager.taskGround = taskArea.transform;
-            print("taskArea done");
 
             GameObject registerArea = new GameObject("RegisterArea");
             registerArea.transform.parent = mapParent;
             registerArea.transform.position = map.registerArea.pos;
+            registerArea.transform.rotation = new Quaternion();
             registerArea.transform.localScale = map.registerArea.size;
             flowManager.registerGround = registerArea.transform;
-            print("registerArea done");
 
             GameObject leavingArea = new GameObject("LeavingArea");
             leavingArea.transform.parent = mapParent;
             leavingArea.transform.position = map.leavingArea.pos;
+            leavingArea.transform.rotation = new Quaternion();
             leavingArea.transform.localScale = map.leavingArea.size;
             flowManager.leavingGround = leavingArea.transform;
-            print("leavingArea done");
 
             //print(map.spawningArea.pos);
             GameObject spawningArea = new GameObject("SpawningArea");
             spawningArea.transform.parent = mapParent;
             spawningArea.transform.position = map.spawningArea.pos;
+            spawningArea.transform.rotation = new Quaternion();
             spawningArea.transform.localScale = map.spawningArea.size;
-            
             flowManager.spawningGround = spawningArea.transform;
-            print("spawningArea done");
-            print(Time.frameCount);
+
 
 
             foreach (Block shelf in map.shelves) {
