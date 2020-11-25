@@ -28,6 +28,8 @@ namespace Profielwerkstuk
 
         public List<Vector3> registerPositions = new List<Vector3>();
 
+        public DataHoarder dataHoarder;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -39,7 +41,6 @@ namespace Profielwerkstuk
         IEnumerator spawnPlayers(int numPlayers)
         {
             yield return null;
-
             var minX = spawningGround.position.x - spawningGround.localScale.x / 2;
             var maxX = spawningGround.position.x + spawningGround.localScale.x / 2;
             var minZ = spawningGround.position.z - spawningGround.localScale.z / 2;
@@ -62,13 +63,16 @@ namespace Profielwerkstuk
                 player.name = "" + (i + 1);
                 PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
                 playerMovement.coughCloudParent = coughClouds;
-
+                playerMovement.dataHoarder = dataHoarder;
+                playerMovement.id = "" + (i + 1);
                 // Infects player
                 if (Random.Range(0.0f, 1.0f) >= Config.chanceInfected)
                 {
                     playerMovement.infected = true;
                     player.GetComponent<MeshRenderer>().material = playerMovement.infectedMaterial;
                 }
+
+                dataHoarder.onSpawn(player.name, playerMovement.infected);
                 // Assigns Tasks
                 TaskManager taskManager = playerMovement.taskManager;
                 NavMeshAgent agent = playerMovement.agent;

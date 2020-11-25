@@ -24,6 +24,9 @@ namespace Profielwerkstuk
         private float timeSinceLastCough = 0.0f;
         private float timeUntilCough = 0.0f;
 
+        public string id;
+        public DataHoarder dataHoarder;
+
         void Start()
         {
             taskManager = new TaskManager(agent);
@@ -82,6 +85,7 @@ namespace Profielwerkstuk
                         }
                         else if (status == "LEAVING")
                         {
+                            dataHoarder.onLeave(id, infected);
                             Destroy(gameObject);
                         }
                     } else
