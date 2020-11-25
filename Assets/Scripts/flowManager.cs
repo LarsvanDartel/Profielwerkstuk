@@ -25,12 +25,25 @@ namespace Profielwerkstuk
         public Transform coughClouds;
 
         public GameObject playerPrefab;
-    
+
+        public List<Vector3> registerPositions;
+
         // Start is called before the first frame update
         void Start()
         {
             Time.timeScale = Config.speed;
             StartCoroutine(spawnPlayers((int)Config.spawnsPerHour));
+            registerPositions = new List<Vector3>();
+            registerPositions.Add(new Vector3(16, 1, 3));
+            registerPositions.Add(new Vector3(16, 1, -1));
+            registerPositions.Add(new Vector3(16, 1, -5));
+            registerPositions.Add(new Vector3(13, 1, -13));
+            registerPositions.Add(new Vector3(19, 1, -13));
+            registerPositions.Add(new Vector3(13, 1, -19));
+            registerPositions.Add(new Vector3(19, 1, -19));
+            registerPositions.Add(new Vector3(13, 1, -21));
+            registerPositions.Add(new Vector3(19, 1, -21));
+
         }
 
         IEnumerator spawnPlayers(int numPlayers)
@@ -86,5 +99,32 @@ namespace Profielwerkstuk
             }
         }
 
+        /*void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if(Physics.Raycast(ray, out hit))
+                {
+                    registerPositions.Add(hit.point);
+                    //print("x: " + hit.point.x + ", z: " + hit.point.z);
+                }
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                StartCoroutine(showPositions());
+            }
+        }
+
+        IEnumerator showPositions()
+        {
+            foreach(Vector3 pos in registerPositions)
+            {
+                print("x: " + pos.x + ", z: " + pos.z);
+                showingThingy.transform.position = pos;
+                yield return new WaitForSeconds(1);
+            }
+        }*/
     }
 }

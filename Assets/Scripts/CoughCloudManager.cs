@@ -17,9 +17,7 @@ namespace Profielwerkstuk {
 
         void Update()
         {
-            var newScale = transform.localScale;
-            newScale *= (1+sizeIncrease);
-            transform.localScale = newScale;
+            transform.localScale += new Vector3(sizeIncrease, sizeIncrease, sizeIncrease);
 
             infectionRate /= Mathf.Pow((1+sizeIncrease), 3);
 
