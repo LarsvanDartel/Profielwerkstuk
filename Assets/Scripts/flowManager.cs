@@ -27,6 +27,7 @@ namespace Profielwerkstuk
         public GameObject playerPrefab;
 
         public List<Vector3> registerPositions;
+        public RegisterManager registerManager;
 
         // Start is called before the first frame update
         void Start()
@@ -43,7 +44,10 @@ namespace Profielwerkstuk
             registerPositions.Add(new Vector3(19, 1, -19));
             registerPositions.Add(new Vector3(13, 1, -21));
             registerPositions.Add(new Vector3(19, 1, -21));
-
+            foreach(Vector3 pos in registerPositions)
+            {
+                registerManager.addRegister(pos);
+            }
         }
 
         IEnumerator spawnPlayers(int numPlayers)
@@ -87,8 +91,14 @@ namespace Profielwerkstuk
                 {
                     taskManager.addTaskInArea(taskGround);
                 }
-                taskManager.addPos("register", registerGround);
+                // taskManager.addPos("register", registerGround);
                 taskManager.addPos("leaving", leavingGround);
+
+                foreach(Vector3 pos in registerGround)
+                {
+                    taskManager.registerPositions.Add(pos);
+                }
+                taskManager.waitingForRegisterPos = new Vector3(11, 1, -23);
 
                 playerMovement.target = taskManager.getTask();
                 agent.SetDestination(playerMovement.target);

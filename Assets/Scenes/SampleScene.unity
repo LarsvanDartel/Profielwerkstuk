@@ -647,6 +647,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1766353319}
   - component: {fileID: 1766353318}
+  - component: {fileID: 1766353320}
   m_Layer: 0
   m_Name: Players
   m_TagString: Untagged
@@ -674,6 +675,8 @@ MonoBehaviour:
   coughClouds: {fileID: 858312197}
   playerPrefab: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
     type: 3}
+  registerPositions: []
+  registerManager: {fileID: 1766353320}
 --- !u!4 &1766353319
 Transform:
   m_ObjectHideFlags: 0
@@ -688,6 +691,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1766353320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766353317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d01d69506dbba1469aed179da1320da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  registers: []
 --- !u!1 &1770710338
 GameObject:
   m_ObjectHideFlags: 0

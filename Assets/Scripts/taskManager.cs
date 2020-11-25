@@ -7,8 +7,9 @@ namespace Profielwerkstuk
     public class TaskManager
     {
         public List<Vector3> Tasks;
-        public Vector3 registerPos;
-        public Vector3 leavingPos;
+        public List<Vector3> registerPositions;
+        public Vector3 waitingForRegisterPos;
+        public Vector3 leavingPos;  
 
         private NavMeshAgent agent;
 
@@ -91,13 +92,14 @@ namespace Profielwerkstuk
             } while (!canReach(target));
             return target;
         }
+
         public void addPos(string type, Transform area)
         {
-            if (type == "register")
+            /*if (type == "register")
             {
                 registerPos = getPos(area);
             }
-            else if (type == "leaving")
+            else*/ if (type == "leaving")
             {
                 leavingPos = getPos(area);
             }
