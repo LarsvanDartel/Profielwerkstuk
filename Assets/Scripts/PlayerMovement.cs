@@ -27,6 +27,7 @@ namespace Profielwerkstuk
         public string id;
         public DataHoarder dataHoarder;
 
+        public Vector3 register;
         void Start()
         {
             taskManager = new TaskManager(agent);
@@ -35,7 +36,7 @@ namespace Profielwerkstuk
             agent.autoBraking = false;
             status = "ASSIGNING";
             waiting = false;
-
+            register = new Vector3();
             waitingFor = new List<GameObject>();
         }
 
@@ -72,13 +73,29 @@ namespace Profielwerkstuk
                     if (taskManager.Tasks.Count == 0)
                     {
                         if (status == "ACTIVE")
-                        {
-                            target = taskManager.registerPos;
-                            status = "CHECKING OUT";
+                        { 
+                            
+                            if (transform.parent.GetComponent<RegisterManager>().waitForRegister(transform.GetComponent<PlayerMovement>()))
+                            {
+                                status = "CHECKING OUT";
+                                agent.SetDestination(target);
+                            }
+                            else
+                            {
+                                status = "WAITING FOR REGISTER";
+                                target = taskManager.waitingForRegisterPos;
+                                agent.SetDestination(target);
+                            }
                             StartCoroutine(waitForNextTask(Random.Range(5, 15)));
+                        }
+                        else if (status == "WAITING FOR REGISTER")
+                        {
+                            waiting = true;
+                            StartCoroutine(activateObstacle());
                         }
                         else if (status == "CHECKING OUT")
                         {
+                            register = target;
                             target = taskManager.leavingPos;
                             status = "LEAVING";
                             StartCoroutine(waitForNextTask(Random.Range(20, 40)));
@@ -154,6 +171,10 @@ namespace Profielwerkstuk
             StartCoroutine(activateObstacle());
             yield return new WaitForSeconds(s);
             waiting = false;
+            if(status == "LEAVING")
+            {
+                transform.parent.GetComponent<RegisterManager>().onLeaveRegister(register);
+            }
         }
         IEnumerator activateObstacle()
         {

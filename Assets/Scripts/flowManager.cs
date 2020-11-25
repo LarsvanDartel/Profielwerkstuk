@@ -26,6 +26,7 @@ namespace Profielwerkstuk
 
         public GameObject playerPrefab;
 
+        public RegisterManager registerManager;
         public List<Vector3> registerPositions = new List<Vector3>();
 
         public DataHoarder dataHoarder;
@@ -35,12 +36,15 @@ namespace Profielwerkstuk
         {
             Time.timeScale = Config.speed;
             StartCoroutine(spawnPlayers((int)Config.spawnsPerHour));
-
         }
 
         IEnumerator spawnPlayers(int numPlayers)
         {
             yield return null;
+            foreach(Vector3 pos in registerPositions)
+            {
+                registerManager.addRegister(pos);
+            }
             var minX = spawningGround.position.x - spawningGround.localScale.x / 2;
             var maxX = spawningGround.position.x + spawningGround.localScale.x / 2;
             var minZ = spawningGround.position.z - spawningGround.localScale.z / 2;
@@ -81,8 +85,14 @@ namespace Profielwerkstuk
                 {
                     taskManager.addTaskInArea(taskGround);
                 }
-                taskManager.addPos("register", registerGround);
+                // taskManager.addPos("register", registerGround);
                 taskManager.addPos("leaving", leavingGround);
+
+                foreach(Vector3 pos in registerGround)
+                {
+                    taskManager.registerPositions.Add(pos);
+                }
+                taskManager.waitingForRegisterPos = new Vector3(11, 1, -23);
 
                 playerMovement.target = taskManager.getTask();
                 agent.SetDestination(playerMovement.target);
