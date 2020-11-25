@@ -37,10 +37,10 @@ namespace Profielwerkstuk {
         void buildMap(Map map)
         {
             GameObject taskArea = new GameObject("TaskArea");
-            taskArea.transform.position = map.taskArea.pos;
-            taskArea.transform.localScale = map.taskArea.size;
-            taskArea.transform.rotation = new Quaternion();
             taskArea.transform.parent = mapParent;
+            taskArea.transform.position = map.taskArea.pos;
+            taskArea.transform.rotation = new Quaternion();
+            taskArea.transform.localScale = map.taskArea.size;
             flowManager.taskGround = taskArea.transform;
 
             GameObject registerArea = new GameObject("RegisterArea");
@@ -65,7 +65,15 @@ namespace Profielwerkstuk {
             spawningArea.transform.localScale = map.spawningArea.size;
             flowManager.spawningGround = spawningArea.transform;
 
-
+            flowManager.registerPositions.Add(new Vector3(16, 1, 3));
+            flowManager.registerPositions.Add(new Vector3(16, 1, -1));
+            flowManager.registerPositions.Add(new Vector3(16, 1, -5));
+            flowManager.registerPositions.Add(new Vector3(13, 1, -13));
+            flowManager.registerPositions.Add(new Vector3(19, 1, -13));
+            flowManager.registerPositions.Add(new Vector3(13, 1, -19));
+            flowManager.registerPositions.Add(new Vector3(19, 1, -19));
+            flowManager.registerPositions.Add(new Vector3(13, 1, -21));
+            flowManager.registerPositions.Add(new Vector3(19, 1, -21));
 
             foreach (Block shelf in map.shelves) {
                 Instantiate(shelfPrefab, shelf.pos, new Quaternion(), shelfParent.transform).transform.localScale = shelf.size;

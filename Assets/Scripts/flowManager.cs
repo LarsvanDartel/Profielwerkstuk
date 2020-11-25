@@ -26,34 +26,23 @@ namespace Profielwerkstuk
 
         public GameObject playerPrefab;
 
-        public List<Vector3> registerPositions;
         public RegisterManager registerManager;
+        public List<Vector3> registerPositions = new List<Vector3>();
 
         // Start is called before the first frame update
         void Start()
         {
             Time.timeScale = Config.speed;
             StartCoroutine(spawnPlayers((int)Config.spawnsPerHour));
-            registerPositions = new List<Vector3>();
-            registerPositions.Add(new Vector3(16, 1, 3));
-            registerPositions.Add(new Vector3(16, 1, -1));
-            registerPositions.Add(new Vector3(16, 1, -5));
-            registerPositions.Add(new Vector3(13, 1, -13));
-            registerPositions.Add(new Vector3(19, 1, -13));
-            registerPositions.Add(new Vector3(13, 1, -19));
-            registerPositions.Add(new Vector3(19, 1, -19));
-            registerPositions.Add(new Vector3(13, 1, -21));
-            registerPositions.Add(new Vector3(19, 1, -21));
-            foreach(Vector3 pos in registerPositions)
-            {
-                registerManager.addRegister(pos);
-            }
         }
 
         IEnumerator spawnPlayers(int numPlayers)
         {
             yield return null;
-
+            foreach(Vector3 pos in registerPositions)
+            {
+                registerManager.addRegister(pos);
+            }
             var minX = spawningGround.position.x - spawningGround.localScale.x / 2;
             var maxX = spawningGround.position.x + spawningGround.localScale.x / 2;
             var minZ = spawningGround.position.z - spawningGround.localScale.z / 2;
