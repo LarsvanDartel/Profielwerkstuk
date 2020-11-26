@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 namespace Profielwerkstuk {
     
     public class MapLoader : MonoBehaviour
@@ -23,12 +23,15 @@ namespace Profielwerkstuk {
         public GameObject groundPrefab;
         public FlowManager flowManager;
         public RegisterManager registerManager;
+
+
         // Start is called before the first frame update
         void Start()
         {
             map = new Map();
             JsonUtility.FromJsonOverwrite(JSONFile.ToString(), map);
-            buildMap(map);  
+            buildMap(map);
+            StartCoroutine(getTaskPositions());
         }
 
         void buildMap(Map map)
@@ -88,16 +91,55 @@ namespace Profielwerkstuk {
                 Instantiate(wallPrefab, wall.pos, Quaternion.identity, wallParent).transform.localScale = wall.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
-            foreach (Block register in map.registers) {
+            foreach (Block register in map.registers)
+            {
                 Instantiate(registerPrefab, register.pos, Quaternion.identity, registerParent).transform.localScale = register.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
         }
 
-        // Update is called once per frame
-        void Update()
+        IEnumerator getTaskPositions()
         {
-            
+            yield return null;
+            flowManager.taskPositions = new List<Vector3>();
+            // generates positions for tasks:
+            foreach (Transform child in shelfParent)
+            {
+                Vector3 scale = child.localScale;
+                Vector3 pos = child.position;
+
+                // find all positions along the x-axis
+                for (float x = 2; x < scale.x; x += 2)
+                {
+                    Vector3 newPos = new Vector3(pos.x + x - scale.x / 2, -1, pos.z + scale.z / 2 + 1);
+                    NavMeshHit hit;
+                    if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
+                    {
+                        flowManager.taskPositions.Add(hit.position);
+                    }
+                    newPos = new Vector3(pos.x + x - scale.x / 2, -1, pos.z - scale.z / 2 - 1);
+                    if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
+                    {
+                        flowManager.taskPositions.Add(hit.position);
+                    }
+                }
+                // find all positions along the x-axis
+                for (float z = 2; z < scale.z; z += 2)
+                {
+                    Vector3 newPos = new Vector3(pos.x + scale.x / 2 + 1, -1, pos.z - scale.z / 2 + z);
+                    NavMeshHit hit;
+                    if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
+                    {
+                        flowManager.taskPositions.Add(hit.position);
+                    }
+                    newPos = new Vector3(pos.x - scale.x / 2 - 1, -1, pos.z - scale.z / 2 + z);
+                    if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
+                    {
+                        flowManager.taskPositions.Add(hit.position);
+                    }
+                }
+            }
         }
+
     }
 }

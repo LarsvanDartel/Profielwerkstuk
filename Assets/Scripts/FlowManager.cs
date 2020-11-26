@@ -97,12 +97,13 @@ namespace Profielwerkstuk
         public GameObject playerPrefab;
 
         public DataHoarder dataHoarder;
-
+        public Camera cam;
         private int playersPerDay;
-        List<float> spawningTimes;
+        private List<float> spawningTimes;
+        public List<Vector3> taskPositions;
         // Start is called before the first frame update
         void Start()
-        {  
+        {
             Time.timeScale = Config.speed;
             playersPerDay = (int)Config.playersPerDay;
             spawningTimes = new List<float>();
@@ -159,20 +160,28 @@ namespace Profielwerkstuk
 
             // Assigns Tasks
             //print("assigning tasks");
+
             TaskManager taskManager = playerMovement.taskManager;
             NavMeshAgent agent = playerMovement.agent;
-            int numTasks = Random.Range(5, 10);
+            int numTasks = Random.Range(15, 25);
+            List<int> tasks = new List<int>();
             for (int t = 0; t < numTasks; t++)
             {
-                taskManager.addTaskInArea(taskGround);
+                int randomIndex;
+                do
+                {
+                    randomIndex = Random.Range(0, taskPositions.Count);
+                } while (tasks.Contains(randomIndex));
+                tasks.Add(randomIndex);
             }
+
+            foreach(int index in tasks)
+            {
+                taskManager.addTask(taskPositions[index]);
+            }
+
             // taskManager.addPos("register", registerGround);
             taskManager.addPos("leaving", leavingGround);
-
-            foreach (Vector3 pos in registerGround)
-            {
-                taskManager.registerPositions.Add(pos);
-            }
 
             taskManager.waitingForRegisterPos = new Vector3(11, 1, -23);
 
@@ -198,7 +207,16 @@ namespace Profielwerkstuk
 
         void Update()
         {
-            print("here");
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                Physics.Raycast(ray, out hit);
+                Utility.PrintVector(hit.point); 
+            }
+
+
             seconds += Time.deltaTime;
             if (seconds >= 60)
             {
@@ -212,7 +230,6 @@ namespace Profielwerkstuk
             minutes %= 60;
 
             timeInHours = hours + (minutes + seconds / 60) / 60;
-            print(timeInHours);
             if(index < spawningTimes.Count)
             {
                 if(timeInHours > spawningTimes[index])

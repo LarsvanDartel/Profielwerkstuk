@@ -690,6 +690,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
     type: 3}
   dataHoarder: {fileID: 1760870599}
+  cam: {fileID: 963194227}
+  taskPositions: []
 --- !u!4 &1766353319
 Transform:
   m_ObjectHideFlags: 0

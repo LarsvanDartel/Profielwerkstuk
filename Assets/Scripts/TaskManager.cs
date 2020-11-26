@@ -7,7 +7,6 @@ namespace Profielwerkstuk
     public class TaskManager
     {
         public List<Vector3> Tasks;
-        public List<Vector3> registerPositions;
         public Vector3 waitingForRegisterPos;
         public Vector3 leavingPos;  
 
@@ -109,5 +108,11 @@ namespace Profielwerkstuk
         {
             Tasks.Add(getPos(area));
         }
+
+        public void addTask(Vector3 toAdd)
+        {
+            if (!Tasks.Contains(toAdd)) Tasks.Add(toAdd);
+        }
+
     }
 }
