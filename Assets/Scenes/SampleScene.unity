@@ -616,6 +616,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 6297965345013266234, guid: f5e114ff62037c74da8ccd1b3fec043d,
     type: 3}
   flowManager: {fileID: 1766353318}
+  registerManager: {fileID: 1766353320}
 --- !u!114 &1760870598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,7 +638,11 @@ MonoBehaviour:
     minCough: 0
     maxCough: 0
     chanceInfected: 0
-    spawnsPerHour: 0
+    playersPerDay: 0
+    playerDistributionMean: 0
+    playerDistributionStandardDeviation: 0
+    openingTime: 0
+    closingTime: 0
 --- !u!114 &1760870599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,8 +693,6 @@ MonoBehaviour:
   coughClouds: {fileID: 858312197}
   playerPrefab: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
     type: 3}
-  registerManager: {fileID: 1766353320}
-  registerPositions: []
   dataHoarder: {fileID: 1760870599}
 --- !u!4 &1766353319
 Transform:

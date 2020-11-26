@@ -1,10 +1,14 @@
 {
-    "speed": 10,
+    "speed":25,
     "coughCloudIncrease": 0.02,
     "infectionRateCC": 1,
     "coughDuration": 5,
     "minCough": 10,
     "maxCough": 30,
     "chanceInfected": 0.5,
-    "spawnsPerHour": 10
+    "playersPerDay": 500,
+	"playerDistributionMean": 13,
+	"playerDistributionStandardDeviation": 4,
+	"openingTime":7,
+	"closingTime":21
 }

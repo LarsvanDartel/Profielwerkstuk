@@ -15,7 +15,7 @@ namespace Profielwerkstuk {
             shopper.timeDespawned = Time.time;
             outputData.peopleLeft++;
             print(shopper.timeDespawned);
-            if(outputData.peopleLeft == Config.spawnsPerHour) onEnd();
+            if(outputData.peopleLeft == Config.playersPerDay) onEnd();
         }
         private void onEnd() {
             string csvFile = "";

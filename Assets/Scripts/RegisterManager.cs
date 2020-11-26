@@ -28,6 +28,7 @@ namespace Profielwerkstuk {
                 player.register = register;
                 player.target = register;
                 player.waiting = false;
+                playersWaiting.Dequeue();
             }
         }
 

@@ -12,8 +12,11 @@ namespace Profielwerkstuk {
         public float minCough; // the minimal time between each cough
         public float maxCough; // the maximal time between each cough
         public float chanceInfected; // a chance 0-1 someone spawns infected
-        public float spawnsPerHour; // how many people spawn per hour       
-
+        public float playersPerDay; // how many people spawn per hour
+        public float playerDistributionMean; // the mean of the gaussian distribution for the players
+        public float playerDistributionStandardDeviation; // the standard deviation of the gaussian distribution for the players
+        public float openingTime; // the shop's opening time
+        public float closingTime; // the shop's closing time
     }
     public static class Config {
         public static float speed; // the speed of the simulation
@@ -23,7 +26,10 @@ namespace Profielwerkstuk {
         public static float minCough; // the minimal time between each cough
         public static float maxCough; // the maximal time between each cough
         public static float chanceInfected; // a chance 0-1 someone spawns infected
-        public static float spawnsPerHour; // how many people spawn per hour       
-
+        public static float playersPerDay; // how many people spawn per hour       
+        public static float playerDistributionMean; // the mean of the gaussian distribution for the players
+        public static float playerDistributionStandardDeviation; // the standard deviation of the gaussian distribution for the players
+        public static float openingTime; // the shop's opening time
+        public static float closingTime; // the shop's closing time
     }
 }

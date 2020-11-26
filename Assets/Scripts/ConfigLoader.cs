@@ -19,13 +19,11 @@ namespace Profielwerkstuk {
             Config.minCough = config.minCough;  
             Config.maxCough = config.maxCough;  
             Config.chanceInfected = config.chanceInfected; 
-            Config.spawnsPerHour = config.spawnsPerHour;  
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            
+            Config.playersPerDay = config.playersPerDay;
+            Config.playerDistributionMean = config.playerDistributionMean;
+            Config.playerDistributionStandardDeviation = config.playerDistributionStandardDeviation;
+            Config.openingTime = config.openingTime;
+            Config.closingTime = config.closingTime;
         }
     }
 }

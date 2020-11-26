@@ -4,11 +4,46 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace Profielwerkstuk
 {
+    class RandomGaussian {
+        public static float NextGaussian()
+        {
+            float v1, v2, s;
+            do
+            {
+                v1 = 2.0f * Random.Range(0f, 1f) - 1.0f;
+                v2 = 2.0f * Random.Range(0f, 1f) - 1.0f;
+                s = v1 * v1 + v2 * v2;
+            } while (s >= 1.0f || s == 0f);
+
+            s = Mathf.Sqrt((-2.0f * Mathf.Log(s)) / s);
+
+            return v1 * s;
+        }
+
+        public static float NextGaussian(float mean, float standard_deviation)
+        {
+            return mean + NextGaussian() * standard_deviation;
+        }
+
+        public static float NextGaussian(float mean, float standard_deviation, float min, float max)
+        {
+            float x;
+            do
+            {
+                x = NextGaussian(mean, standard_deviation);
+            } while (x < min || x > max);
+            return x;
+        }
+    }
+
     public class FlowManager : MonoBehaviour
     {
+        private int hours = 0;
+        private int minutes = 0;
+        private float seconds = 0.0f;
+        private float timeInHours;
 
-        // private float time = 0.0f;
-
+        private int index = 0;
         /* When spawning a new player, the following variables need to be assigned:
          * Position
          * Ground
@@ -26,109 +61,130 @@ namespace Profielwerkstuk
 
         public GameObject playerPrefab;
 
-        public RegisterManager registerManager;
-        public List<Vector3> registerPositions = new List<Vector3>();
-
         public DataHoarder dataHoarder;
 
+        private int playersPerDay;
+        List<float> spawningTimes;
         // Start is called before the first frame update
         void Start()
-        {
+        {  
             Time.timeScale = Config.speed;
-            StartCoroutine(spawnPlayers((int)Config.spawnsPerHour));
+            playersPerDay = (int)Config.playersPerDay;
+            spawningTimes = new List<float>();
+            for(int i = 0; i < playersPerDay; i++)
+            {
+                spawningTimes.Add(RandomGaussian.NextGaussian(Config.playerDistributionMean, 
+                                                              Config.playerDistributionStandardDeviation, 
+                                                              Config.openingTime, 
+                                                              Config.closingTime));
+            }
+            spawningTimes.Sort();
+            /*foreach(float time in spawningTimes)
+            {
+                print(time);
+            }*/
+            //print(spawningTimes[0]);    
+            hours = (int)Config.openingTime;
+            minutes = (int)((Config.openingTime % 1) * 60);
+
         }
 
-        IEnumerator spawnPlayers(int numPlayers)
+        IEnumerator spawnPlayer(string name)
         {
-            yield return null;
-            foreach(Vector3 pos in registerPositions)
-            {
-                registerManager.addRegister(pos);
-            }
+            // print("spawning...");
             var minX = spawningGround.position.x - spawningGround.localScale.x / 2;
             var maxX = spawningGround.position.x + spawningGround.localScale.x / 2;
             var minZ = spawningGround.position.z - spawningGround.localScale.z / 2;
             var maxZ = spawningGround.position.z + spawningGround.localScale.z / 2;
             var y = spawningGround.position.y + spawningGround.localScale.y / 2;
 
+            // Generates starting position
+            float x = Random.Range(minX, maxX);
+            float z = Random.Range(minZ, maxZ);
+            var spawnPosition = new Vector3(x, y, z);
+            // print("generated position");
+                
+            // Spawns player    
+            GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity, transform);
+            yield return new WaitForEndOfFrame();
+            player.name = name;
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            playerMovement.coughCloudParent = coughClouds;
+            playerMovement.dataHoarder = dataHoarder;
+            playerMovement.id = name;
+            // print("spawned player");
+            // Infects player
+            if (Random.Range(0.0f, 1.0f) >= Config.chanceInfected)
+            {
+                playerMovement.infected = true;
+                player.GetComponent<MeshRenderer>().material = playerMovement.infectedMaterial;
+            }
+
+            dataHoarder.onSpawn(player.name, playerMovement.infected);
+            // Assigns Tasks
+            // print("assigning tasks");
+            TaskManager taskManager = playerMovement.taskManager;
+            NavMeshAgent agent = playerMovement.agent;
+            int numTasks = Random.Range(5, 10);
+            for (int t = 0; t < numTasks; t++)
+            {
+                taskManager.addTaskInArea(taskGround);
+            }
+            // taskManager.addPos("register", registerGround);
+            taskManager.addPos("leaving", leavingGround);
+
+            foreach (Vector3 pos in registerGround)
+            {
+                taskManager.registerPositions.Add(pos);
+            }
+            taskManager.waitingForRegisterPos = new Vector3(11, 1, -23);
+
+            playerMovement.target = taskManager.getTask();
+            agent.SetDestination(playerMovement.target);
+
+            playerMovement.status = "ACTIVE";
+            // print("done spawning");
+        }
+
+        /*IEnumerator spawnPlayers(int numPlayers)
+        {
+            yield return null;
+
 
             for (int i = 0; i < numPlayers; i++)
             {
-                // print("Spawning player " + (i + 1));
-
-                // Generates starting position
-                float x = Random.Range(minX, maxX);
-                float z = Random.Range(minZ, maxZ);
-                var spawnPosition = new Vector3(x, y, z);
-
-                // Spawns player    
-                GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity, transform);
-                yield return new WaitForEndOfFrame();
-                player.name = "" + (i + 1);
-                PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-                playerMovement.coughCloudParent = coughClouds;
-                playerMovement.dataHoarder = dataHoarder;
-                playerMovement.id = "" + (i + 1);
-                // Infects player
-                if (Random.Range(0.0f, 1.0f) >= Config.chanceInfected)
-                {
-                    playerMovement.infected = true;
-                    player.GetComponent<MeshRenderer>().material = playerMovement.infectedMaterial;
-                }
-
-                dataHoarder.onSpawn(player.name, playerMovement.infected);
-                // Assigns Tasks
-                TaskManager taskManager = playerMovement.taskManager;
-                NavMeshAgent agent = playerMovement.agent;
-                int numTasks = Random.Range(5, 10);
-                for(int t = 0; t < numTasks; t++)
-                {
-                    taskManager.addTaskInArea(taskGround);
-                }
-                // taskManager.addPos("register", registerGround);
-                taskManager.addPos("leaving", leavingGround);
-
-                foreach(Vector3 pos in registerGround)
-                {
-                    taskManager.registerPositions.Add(pos);
-                }
-                taskManager.waitingForRegisterPos = new Vector3(11, 1, -23);
-
-                playerMovement.target = taskManager.getTask();
-                agent.SetDestination(playerMovement.target);
-
-                playerMovement.status = "ACTIVE";
+                spawnPlayer(""+(i+1));
                 yield return new WaitForSeconds(35);
 
             }
-        }
+        }*/
 
-        /*void Update()
+        void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            seconds += Time.deltaTime;
+            if (seconds >= 60)
             {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if(Physics.Raycast(ray, out hit))
+                minutes++;
+                // print(timeInHours);
+                //print(hours + ":" + minutes + ":" + (int)seconds);
+                // print(spawningTimes[index]);
+            }
+            if (minutes >= 60) hours++;
+            seconds %= 60;
+            minutes %= 60;
+
+            timeInHours = hours + (minutes + seconds / 60) / 60;
+            // print(timeInHours);
+            if(index < spawningTimes.Count)
+            {
+                if(timeInHours > spawningTimes[index])
                 {
-                    registerPositions.Add(hit.point);
-                    //print("x: " + hit.point.x + ", z: " + hit.point.z);
+                    // print("Spawning player");
+                    index++;
+                    StartCoroutine(spawnPlayer("" + index));
                 }
             }
-            else if (Input.GetMouseButtonDown(1))
-            {
-                StartCoroutine(showPositions());
-            }
+            if (Input.GetMouseButtonDown(0)) { print(timeInHours); print(spawningTimes[index]); }
         }
-
-        IEnumerator showPositions()
-        {
-            foreach(Vector3 pos in registerPositions)
-            {
-                print("x: " + pos.x + ", z: " + pos.z);
-                showingThingy.transform.position = pos;
-                yield return new WaitForSeconds(1);
-            }
-        }*/
     }
 }
