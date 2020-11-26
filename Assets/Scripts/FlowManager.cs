@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace Profielwerkstuk
 {
-    class RandomGaussian {
+    class Utility {
         public static float NextGaussian()
         {
             float v1, v2, s;
@@ -34,6 +34,40 @@ namespace Profielwerkstuk
             } while (x < min || x > max);
             return x;
         }
+
+        public static float Round(float n, int d)
+        {
+            float powered = Mathf.Pow(10, d);
+
+            return Mathf.Round(n * powered) / powered;
+        }
+
+        public static Vector3 Round(Vector3 v, int d)
+        {
+            return new Vector3(Round(v.x, d), Round(v.y, d), Round(v.z, d));
+        }
+
+        public static Vector3 Rotate(Vector3 v)
+        {
+            return new Vector3(-v.z, v.y, v.x);
+        }
+
+        public static float Abs(float f)
+        {
+            if (f >= 0) return f;
+            return -f;
+        }
+
+        public static Vector3 Abs(Vector3 v)
+        {
+            return new Vector3(Abs(v.x), Abs(v.y), Abs(v.z));
+        }
+
+        public static void PrintVector(Vector3 v)
+        {
+            Debug.Log("x: " + v.x + ", y: " + v.y + ", z: " + v.z);
+        }
+
     }
 
     public class FlowManager : MonoBehaviour
@@ -44,6 +78,7 @@ namespace Profielwerkstuk
         private float timeInHours;
 
         private int index = 0;
+
         /* When spawning a new player, the following variables need to be assigned:
          * Position
          * Ground
@@ -73,7 +108,7 @@ namespace Profielwerkstuk
             spawningTimes = new List<float>();
             for(int i = 0; i < playersPerDay; i++)
             {
-                spawningTimes.Add(RandomGaussian.NextGaussian(Config.playerDistributionMean, 
+                spawningTimes.Add(Utility.NextGaussian(Config.playerDistributionMean, 
                                                               Config.playerDistributionStandardDeviation, 
                                                               Config.openingTime, 
                                                               Config.closingTime));
@@ -91,7 +126,7 @@ namespace Profielwerkstuk
 
         IEnumerator spawnPlayer(string name)
         {
-            // print("spawning...");
+            //print("spawning...");
             var minX = spawningGround.position.x - spawningGround.localScale.x / 2;
             var maxX = spawningGround.position.x + spawningGround.localScale.x / 2;
             var minZ = spawningGround.position.z - spawningGround.localScale.z / 2;
@@ -102,7 +137,7 @@ namespace Profielwerkstuk
             float x = Random.Range(minX, maxX);
             float z = Random.Range(minZ, maxZ);
             var spawnPosition = new Vector3(x, y, z);
-            // print("generated position");
+            //print("generated position");
                 
             // Spawns player    
             GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity, transform);
@@ -112,8 +147,8 @@ namespace Profielwerkstuk
             playerMovement.coughCloudParent = coughClouds;
             playerMovement.dataHoarder = dataHoarder;
             playerMovement.id = name;
-            // print("spawned player");
-            // Infects player
+            //print("spawned player");
+            // Infects player   
             if (Random.Range(0.0f, 1.0f) >= Config.chanceInfected)
             {
                 playerMovement.infected = true;
@@ -123,7 +158,7 @@ namespace Profielwerkstuk
             dataHoarder.onSpawn(player.name, playerMovement.infected);
 
             // Assigns Tasks
-            // print("assigning tasks");
+            //print("assigning tasks");
             TaskManager taskManager = playerMovement.taskManager;
             NavMeshAgent agent = playerMovement.agent;
             int numTasks = Random.Range(5, 10);
@@ -145,7 +180,7 @@ namespace Profielwerkstuk
             agent.SetDestination(playerMovement.target);
 
             playerMovement.status = "ACTIVE";
-            // print("done spawning");
+            //print("done spawning");
         }
 
         /*IEnumerator spawnPlayers(int numPlayers)
@@ -163,12 +198,13 @@ namespace Profielwerkstuk
 
         void Update()
         {
+            print("here");
             seconds += Time.deltaTime;
             if (seconds >= 60)
             {
                 minutes++;
                 // print(timeInHours);
-                //print(hours + ":" + minutes + ":" + (int)seconds);
+                // print(hours + ":" + minutes + ":" + (int)seconds);
                 // print(spawningTimes[index]);
             }
             if (minutes >= 60) hours++;
@@ -176,7 +212,7 @@ namespace Profielwerkstuk
             minutes %= 60;
 
             timeInHours = hours + (minutes + seconds / 60) / 60;
-            // print(timeInHours);
+            print(timeInHours);
             if(index < spawningTimes.Count)
             {
                 if(timeInHours > spawningTimes[index])
@@ -184,6 +220,7 @@ namespace Profielwerkstuk
                     // print("Spawning player");
                     index++;
                     StartCoroutine(spawnPlayer("" + index));
+                    // print("Spawned player");
                 }
             }
         }

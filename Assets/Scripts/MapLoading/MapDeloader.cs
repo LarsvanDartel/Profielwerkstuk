@@ -11,75 +11,75 @@ namespace Profielwerkstuk {
             Map map = new Map();
             foreach (Transform child in transform) 
             {
-                print(child.name);
-                switch(child.name) {
-                    case "SpawningGround": {
-                        map.spawningArea.pos = new Vector3(Mathf.Round(child.position.x*100)/100, Mathf.Round(child.position.y*100)/100, Mathf.Round(child.position.z*100)/100);
-                        map.spawningArea.size = new Vector3(Mathf.Round(child.localScale.x*100)/100, Mathf.Round(child.localScale.y*100)/100, Mathf.Round(child.localScale.z*100)/100);
-                        break;
-                    }
-                    case "LeavingGround": {
-                        map.leavingArea.pos = new Vector3(Mathf.Round(child.position.x*100)/100, Mathf.Round(child.position.y*100)/100, Mathf.Round(child.position.z*100)/100);
-                        map.leavingArea.size = new Vector3(Mathf.Round(child.localScale.x*100)/100, Mathf.Round(child.localScale.y*100)/100, Mathf.Round(child.localScale.z*100)/100);
-                        break;
-                    }
-                    case "RegisterGround": {
-                        map.registerArea.pos = new Vector3(Mathf.Round(child.position.x*100)/100, Mathf.Round(child.position.y*100)/100, Mathf.Round(child.position.z*100)/100);
-                        map.registerArea.size = new Vector3(Mathf.Round(child.localScale.x*100)/100, Mathf.Round(child.localScale.y*100)/100, Mathf.Round(child.localScale.z*100)/100);
-                        break;
-                    }
-                    case "TaskGround": {
-                        map.taskArea.pos = new Vector3(Mathf.Round(child.position.x*100)/100, Mathf.Round(child.position.y*100)/100, Mathf.Round(child.position.z*100)/100);
-                        map.taskArea.size = new Vector3(Mathf.Round(child.localScale.x*100)/100, Mathf.Round(child.localScale.y*100)/100, Mathf.Round(child.localScale.z*100)/100);
-                        break;
-                    }       
-                    case "Doors": {
-                        foreach(Transform block in child)
+                Vector3 pos = Utility.Round(child.position, 2);
+                Vector3 scale = Utility.Round(Utility.Abs(Utility.Rotate(child.localScale) * 2), 2);
+                switch (child.name) {
+                    case "Ground":
                         {
-                            map.doors.Add(new Block());
-                            map.doors[map.doors.Count-1].pos = new Vector3(Mathf.Round(block.position.x*100)/100, Mathf.Round(block.position.y*100)/100, Mathf.Round(block.position.z*100)/100);
-                            map.doors[map.doors.Count-1].size = new Vector3(Mathf.Round(block.localScale.x*100)/100, Mathf.Round(block.localScale.y*100)/100, Mathf.Round(block.localScale.z*100)/100);
+                            map.ground = new Block(pos, scale);
+                            break;
                         }
-                        break;
-                    }
-                    case "Registers": {
-                        foreach(Transform block in child)
+                    case "SpawningGround":
                         {
-                            map.registers.Add(new Block());
-                            map.registers[map.registers.Count-1].pos = new Vector3(Mathf.Round(block.position.x*100)/100, Mathf.Round(block.position.y*100)/100, Mathf.Round(block.position.z*100)/100);
-                            map.registers[map.registers.Count-1].size = new Vector3(Mathf.Round(block.localScale.x*100)/100, Mathf.Round(block.localScale.y*100)/100, Mathf.Round(block.localScale.z*100)/100);
+                            map.spawningArea = new Block(pos, scale);
+                            break;
                         }
-                        break;
-                    }
-                    case "Walls": {
-                        foreach(Transform block in child)
+                    case "LeavingGround":
                         {
-                            map.walls.Add(new Block());
-                            map.walls[map.walls.Count-1].pos = new Vector3(Mathf.Round(block.position.x*100)/100, Mathf.Round(block.position.y*100)/100, Mathf.Round(block.position.z*100)/100);
-                            map.walls[map.walls.Count-1].size = new Vector3(Mathf.Round(block.localScale.x*100)/100, Mathf.Round(block.localScale.y*100)/100, Mathf.Round(block.localScale.z*100)/100);
+                            map.leavingArea = new Block(pos, scale);
+                            break;
                         }
-                        break;
-                    }
-                    case "Shelves": {
-                        foreach(Transform block in child)
+                    case "RegisterGround":
                         {
-                            map.shelves.Add(new Block());
-                            map.shelves[map.shelves.Count-1].pos = new Vector3(Mathf.Round(block.position.x*100)/100, Mathf.Round(block.position.y*100)/100, Mathf.Round(block.position.z*100)/100);
-                            map.shelves[map.shelves.Count-1].size = new Vector3(Mathf.Round(block.localScale.x*100)/100, Mathf.Round(block.localScale.y*100)/100, Mathf.Round(block.localScale.z*100)/100);
+                            map.registerArea = new Block(pos, scale);
+                            break;
                         }
-                        break;
-                    }
+                    case "TaskGround":
+                        {
+                            map.taskArea = new Block(pos, scale);
+                            break;
+                        } 
+                    case "Doors":
+                        {
+                            foreach (Transform block in child)
+                            {
+                                scale = Utility.Round(Utility.Abs(Utility.Rotate(block.localScale) * 2), 2);
+                                map.doors.Add(new Block(Utility.Round(block.position, 2), scale));
+                            }
+                            break;
+                        }
+                    case "Registers":
+                        {
+                            foreach (Transform block in child)
+                            {
+                                scale = Utility.Round(Utility.Abs(Utility.Rotate(block.localScale) * 2), 2);
+                                map.registers.Add(new Block(Utility.Round(block.position, 2), scale));
+                            }
+                            break;
+                        }
+                    case "Walls":
+                        {
+                            foreach (Transform block in child)
+                            {
+                                scale = Utility.Round(Utility.Abs(Utility.Rotate(block.localScale) * 2), 2);
+                                map.walls.Add(new Block(Utility.Round(block.position, 2), scale));
+                            }
+                            break;
+                        }
+                    case "Shelves":
+                        {
+                            foreach (Transform block in child)
+                            {
+                                scale = Utility.Round(Utility.Abs(Utility.Rotate(block.localScale) * 2), 2);
+                                map.shelves.Add(new Block(Utility.Round(block.position, 2), scale));
+                            }
+                            break;
+                        }
                 }    
             }
                 
             
             print(JsonUtility.ToJson(map));
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            
         }
     }
 }
