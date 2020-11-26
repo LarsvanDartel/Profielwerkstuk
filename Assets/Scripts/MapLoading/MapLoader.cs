@@ -11,16 +11,16 @@ namespace Profielwerkstuk {
 
         public Transform mapParent;
 
-        public GameObject shelfParent;
-        public GameObject registerParent;
-        public GameObject doorParent;
-        public GameObject wallParent;
+        public Transform shelfParent;
+        public Transform registerParent;
+        public Transform doorParent;
+        public Transform wallParent;
 
         public GameObject shelfPrefab;
         public GameObject registerPrefab;
         public GameObject doorPrefab;
         public GameObject wallPrefab;
-
+        public GameObject groundPrefab;
         public FlowManager flowManager;
         public RegisterManager registerManager;
         // Start is called before the first frame update
@@ -28,33 +28,33 @@ namespace Profielwerkstuk {
         {
             map = new Map();
             JsonUtility.FromJsonOverwrite(JSONFile.ToString(), map);
-            
-           
-
-            buildMap(map);
-        
+            buildMap(map);  
         }
 
         void buildMap(Map map)
         {
+            // GameObject ground = Instantiate(groundPrefab, map.ground.pos, Quaternion.identity, transform);
+            // ground.transform.localScale = map.ground.size;
+            // flowManager.ground = ground.transform;
+
             GameObject taskArea = new GameObject("TaskArea");
             taskArea.transform.parent = mapParent;
             taskArea.transform.position = map.taskArea.pos;
-            taskArea.transform.rotation = new Quaternion();
+            taskArea.transform.rotation = Quaternion.identity;
             taskArea.transform.localScale = map.taskArea.size;
             flowManager.taskGround = taskArea.transform;
 
             GameObject registerArea = new GameObject("RegisterArea");
             registerArea.transform.parent = mapParent;
             registerArea.transform.position = map.registerArea.pos;
-            registerArea.transform.rotation = new Quaternion();
+            registerArea.transform.rotation = Quaternion.identity;
             registerArea.transform.localScale = map.registerArea.size;
             flowManager.registerGround = registerArea.transform;
 
             GameObject leavingArea = new GameObject("LeavingArea");
             leavingArea.transform.parent = mapParent;
             leavingArea.transform.position = map.leavingArea.pos;
-            leavingArea.transform.rotation = new Quaternion();
+            leavingArea.transform.rotation = Quaternion.identity;
             leavingArea.transform.localScale = map.leavingArea.size;
             flowManager.leavingGround = leavingArea.transform;
 
@@ -62,7 +62,7 @@ namespace Profielwerkstuk {
             GameObject spawningArea = new GameObject("SpawningArea");
             spawningArea.transform.parent = mapParent;
             spawningArea.transform.position = map.spawningArea.pos;
-            spawningArea.transform.rotation = new Quaternion();
+            spawningArea.transform.rotation = Quaternion.identity;
             spawningArea.transform.localScale = map.spawningArea.size;
             flowManager.spawningGround = spawningArea.transform;
 
@@ -77,19 +77,19 @@ namespace Profielwerkstuk {
             registerManager.addRegister(new Vector3(19, 1, -21));
 
             foreach (Block shelf in map.shelves) {
-                Instantiate(shelfPrefab, shelf.pos, new Quaternion(), shelfParent.transform).transform.localScale = shelf.size;
+                Instantiate(shelfPrefab, shelf.pos, Quaternion.identity, shelfParent).transform.localScale = shelf.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
             foreach (Block door in map.doors) {
-                Instantiate(doorPrefab, door.pos, new Quaternion(), doorParent.transform).transform.localScale = door.size;
+                Instantiate(doorPrefab, door.pos, Quaternion.identity, doorParent).transform.localScale = door.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
             foreach (Block wall in map.walls) {
-                Instantiate(wallPrefab, wall.pos, new Quaternion(), wallParent.transform).transform.localScale = wall.size;
+                Instantiate(wallPrefab, wall.pos, Quaternion.identity, wallParent).transform.localScale = wall.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
             foreach (Block register in map.registers) {
-                Instantiate(registerPrefab, register.pos, new Quaternion(), registerParent.transform).transform.localScale = register.size;
+                Instantiate(registerPrefab, register.pos, Quaternion.identity, registerParent).transform.localScale = register.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
         }
