@@ -169,7 +169,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 9c2efb13b629ae74ead1a87a41cc525f, type: 2}
 --- !u!1 &295921673
@@ -461,7 +461,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 30
+  orthographic size: 17
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -485,7 +485,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalPosition: {x: 0, y: 30, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -565,9 +565,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1760870594}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 548004441}
   - {fileID: 295921674}
@@ -576,7 +576,7 @@ Transform:
   - {fileID: 2084748810}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1760870596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,7 +601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e3ff6d0999a0f4ca0b4557ffc6aa88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JSONFile: {fileID: 4900000, guid: cd5e25ecf290ded449a2fb66c5c3d049, type: 3}
+  JSONFile: {fileID: 4900000, guid: 389c5227dc1761a4583661e7c3d5a59b, type: 3}
   mapParent: {fileID: 1760870595}
   shelfParent: {fileID: 1736910465}
   registerParent: {fileID: 2084748809}

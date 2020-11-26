@@ -23,7 +23,7 @@ namespace Profielwerkstuk
         public bool waiting;
         private float timeSinceLastCough = 0.0f;
         private float timeUntilCough = 0.0f;
-
+        // public Camera cam;
         public string id;
         public DataHoarder dataHoarder;
 
@@ -43,6 +43,14 @@ namespace Profielwerkstuk
         // Update is called once per frame
         void Update()
         {
+            /*if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                Physics.Raycast(ray, out hit);
+                target = hit.point;
+                agent.SetDestination(target);
+            }*/
             if (status == "ASSIGNING") return;
             if (status == "DONE")
             {

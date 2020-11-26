@@ -121,6 +121,7 @@ namespace Profielwerkstuk
             }
 
             dataHoarder.onSpawn(player.name, playerMovement.infected);
+
             // Assigns Tasks
             // print("assigning tasks");
             TaskManager taskManager = playerMovement.taskManager;
@@ -137,6 +138,7 @@ namespace Profielwerkstuk
             {
                 taskManager.registerPositions.Add(pos);
             }
+
             taskManager.waitingForRegisterPos = new Vector3(11, 1, -23);
 
             playerMovement.target = taskManager.getTask();
@@ -184,7 +186,6 @@ namespace Profielwerkstuk
                     StartCoroutine(spawnPlayer("" + index));
                 }
             }
-            if (Input.GetMouseButtonDown(0)) { print(timeInHours); print(spawningTimes[index]); }
         }
     }
 }

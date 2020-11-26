@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 7548967978219277211}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -122,7 +122,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 7548967978219277211}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Speed: 2
   m_Acceleration: 5
   avoidancePriority: 50
@@ -178,14 +178,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 2430506081927234803}
-  numTasks: 0
   obstacle: {fileID: 7503455185727432151}
   triggerCollider: {fileID: 6124649064071850760}
   target: {x: 0, y: 0, z: 0}
-  status: 
+  status: ASSIGNING
   waitingFor: []
   coughCloudPrefab: {fileID: 7876065576391416854, guid: 8b5ec2d16ab56f64dbf51d3dd02c525f,
     type: 3}
   infectedMaterial: {fileID: 2100000, guid: ec6b05cd6cf263a468fa2dd4ad941b43, type: 2}
   coughCloudParent: {fileID: 0}
   infected: 0
+  waiting: 0
+  id: 
+  dataHoarder: {fileID: 0}
+  register: {x: 0, y: 0, z: 0}

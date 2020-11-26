@@ -708,9 +708,9 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.1
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 9c2efb13b629ae74ead1a87a41cc525f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 1b3d562503c8e0c4985e768f0e63f98c, type: 2}
 --- !u!1 &295921673
 GameObject:
   m_ObjectHideFlags: 0
@@ -4825,9 +4825,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1760870594}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1504688903}
   - {fileID: 831583015}
@@ -4840,7 +4840,7 @@ Transform:
   - {fileID: 2084748810}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1760870596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4890,8 +4890,6 @@ MonoBehaviour:
   coughClouds: {fileID: 858312197}
   playerPrefab: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
     type: 3}
-  registerManager: {fileID: 0}
-  registerPositions: []
   dataHoarder: {fileID: 0}
 --- !u!4 &1766353319
 Transform:
