@@ -5,26 +5,27 @@ namespace Profielwerkstuk {
     public class CoughCloudManager : MonoBehaviour
     {
         public float infectionRate;
-        private float sizeIncrease = Config.coughCloudIncrease * Config.speed * 60;
+        private float sizeIncrease = Config.coughCloudIncrease;
         private List<PlayerMovement> playersInCloud;
         void Start()
         {
             playersInCloud = new List<PlayerMovement>();
             infectionRate = Config.infectionRateCC;
-            StartCoroutine(destroyIn(Config.coughDuration/Config.speed));
+            StartCoroutine(destroyIn(Config.coughDuration));
 
         }
 
         void Update()
         {
-            transform.localScale += new Vector3(sizeIncrease, sizeIncrease, sizeIncrease);
-
-            infectionRate /= Mathf.Pow((1+sizeIncrease), 3);
+            transform.localScale += new Vector3(sizeIncrease*Time.deltaTime*60, sizeIncrease*Time.deltaTime*60, sizeIncrease*Time.deltaTime*60);
+            infectionRate /= 1+sizeIncrease;
 
             for(int i = playersInCloud.Count-1; i >= 0; i--)
             {
                 var player = playersInCloud[i];
-                if (Random.Range(0.0f, 1.0f) < infectionRate)
+                print(player.infected);
+                print(1-Mathf.Pow(1-infectionRate,Time.deltaTime*60));
+                if (Random.Range(0.0f, 1.0f) < 1-Mathf.Pow(1-infectionRate,Time.deltaTime*60))
                 {
                     player.infect();
                     playersInCloud.Remove(player);
