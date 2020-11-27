@@ -7,7 +7,7 @@ namespace Profielwerkstuk {
         private OutputData outputData = new OutputData();
         public void OnSpawn(string id, bool infected) {
             outputData.shoppers.Add(new Shopper(id, infected));
-            Debug.Log(id);
+            // Debug.Log(id);
         }
         public void OnLeave(string id, bool infected) {
             Shopper shopper = outputData.shoppers.Find(s => s.id == id);

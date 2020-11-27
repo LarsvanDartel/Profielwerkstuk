@@ -66,13 +66,14 @@ namespace Profielwerkstuk
             }
 
             // check if agent has reached goal
-            if (agent.enabled)
+            if (agent.enabled && !waiting)
             {
                 var pos = transform.position;
                 if (agent.remainingDistance <= agent.stoppingDistance)
-                {
+                {   
                     if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                     {
+                        if (Vector3.Distance(new Vector3(pos.x, target.y, pos.y), target) < agent.stoppingDistance + agent.radius) print(name + " is sus");
                         if (status == "ACTIVE") taskManager.RemoveTask(target);
                         if (taskManager.Tasks.Count == 0)
                         {
@@ -83,7 +84,7 @@ namespace Profielwerkstuk
                                 else
                                     status = "WAITING FOR REGISTER";
 
-                                print(name + " " + status);
+                                // print(name + " " + status);
                                 StartCoroutine(WaitForNextTask(Random.Range(5, 15)));
                             }
                             else if (status == "WAITING FOR REGISTER")
@@ -103,6 +104,7 @@ namespace Profielwerkstuk
                                 dataHoarder.OnLeave(id, infected);
                                 // print(name + " HAS LEFT");
                                 Destroy(gameObject);
+                                return;
                             }
                         }
                         else
