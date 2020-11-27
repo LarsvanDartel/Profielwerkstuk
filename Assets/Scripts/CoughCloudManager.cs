@@ -11,7 +11,7 @@ namespace Profielwerkstuk {
         {
             playersInCloud = new List<PlayerMovement>();
             infectionRate = Config.infectionRateCC;
-            StartCoroutine(destroyIn(Config.coughDuration));
+            StartCoroutine(DestroyIn(Config.coughDuration));
 
         }
 
@@ -23,18 +23,18 @@ namespace Profielwerkstuk {
             for(int i = playersInCloud.Count-1; i >= 0; i--)
             {
                 var player = playersInCloud[i];
-                print(player.infected);
-                print(1-Mathf.Pow(1-infectionRate,Time.deltaTime*60));
+                // print(player.infected);
+                // print(1-Mathf.Pow(1-infectionRate,Time.deltaTime*60));
                 if (Random.Range(0.0f, 1.0f) < 1-Mathf.Pow(1-infectionRate,Time.deltaTime*60))
                 {
-                    player.infect();
+                    player.Infect();
                     playersInCloud.Remove(player);
                 }
             }
         }
 
 
-        IEnumerator destroyIn(float s)
+        IEnumerator DestroyIn(float s)
         {
             yield return new WaitForSeconds(s);
             Destroy(gameObject);

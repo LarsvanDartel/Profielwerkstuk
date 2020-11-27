@@ -5,25 +5,25 @@ using UnityEngine;
 namespace Profielwerkstuk { 
     public class DataHoarder : MonoBehaviour {
         private OutputData outputData = new OutputData();
-        public void onSpawn(string id, bool infected) {
+        public void OnSpawn(string id, bool infected) {
             outputData.shoppers.Add(new Shopper(id, infected));
             Debug.Log(id);
         }
-        public void onLeave(string id, bool infected) {
+        public void OnLeave(string id, bool infected) {
             Shopper shopper = outputData.shoppers.Find(s => s.id == id);
             shopper.infectedEnd = infected;
             shopper.timeDespawned = Time.time;
             outputData.peopleLeft++;
-            print(shopper.timeDespawned);
-            if(outputData.peopleLeft == Config.playersPerDay) onEnd();
+            //print(shopper.timeDespawned);
+            if(outputData.peopleLeft == Config.playersPerDay) OnEnd();
         }
-        private void onEnd() {
+        private void OnEnd() {
             string csvFile = "";
             CultureInfo ci = new CultureInfo("nl-NL");
             foreach(Shopper shopper in outputData.shoppers) {
                 csvFile += shopper.id + ";" + shopper.infectedStart + ";" + shopper.infectedEnd + ";" + shopper.timeSpawned.ToString(ci) + ";" + shopper.timeDespawned.ToString(ci) + "\n";
             }
-            print(csvFile);
+            //print(csvFile);
         }
     }
 

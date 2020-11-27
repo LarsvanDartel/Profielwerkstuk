@@ -18,13 +18,13 @@ namespace Profielwerkstuk
             Tasks = new List<Vector3>();
         }
 
-        private bool canReach(Vector3 point)
+        private bool CanReach(Vector3 point)
         {
             NavMeshPath path = new NavMeshPath();
             return agent.CalculatePath(point, path) && path.status == NavMeshPathStatus.PathComplete;
         }
 
-        private float getPathDistance(NavMeshPath path)
+        private float GetPathDistance(NavMeshPath path)
         {
             float lng = 0.0f;
             // Debug.Log(path.status);
@@ -41,12 +41,12 @@ namespace Profielwerkstuk
             return lng;
         }
 
-        public void removeTask(Vector3 toRemove)
+        public void RemoveTask(Vector3 toRemove)
         {
             Tasks.Remove(toRemove);
         }
 
-        public Vector3 getTask()
+        public Vector3 GetTask()
         {
 
             // Debug.Log("There are " + Tasks.Count + " tasks left.");
@@ -57,13 +57,13 @@ namespace Profielwerkstuk
             Vector3 closest = Tasks[0];
             NavMeshPath path = new NavMeshPath();
             agent.CalculatePath(closest, path);
-            float minDistance = getPathDistance(path);
+            float minDistance = GetPathDistance(path);
             // Debug.Log(minDistance);
             for (int i = 1; i < Tasks.Count; i++)
             {
-                if (!canReach(Tasks[i])) continue;
+                if (!CanReach(Tasks[i])) continue;
                 agent.CalculatePath(Tasks[i], path);
-                float distance = getPathDistance(path);
+                float distance = GetPathDistance(path);
                 // Debug.Log(distance); 
                 if (distance < minDistance)
                 {
@@ -74,7 +74,7 @@ namespace Profielwerkstuk
             }
             return closest;
         }
-        private Vector3 getPos(Transform area)
+        private Vector3 GetPos(Transform area)
         {
             float minX = area.position.x - area.localScale.x / 2;
             float maxX = area.position.x + area.localScale.x / 2;
@@ -83,33 +83,20 @@ namespace Profielwerkstuk
             float y = area.position.y + area.localScale.y / 2;
 
             Vector3 target;
-            do
-            {
-                float x = Random.Range(minX, maxX);
-                float z = Random.Range(minZ, maxZ);
-                target = new Vector3(x, y, z);
-            } while (!canReach(target));
-            return target;
+            NavMeshHit hit;
+            float x = Random.Range(minX, maxX);
+            float z = Random.Range(minZ, maxZ);
+            target = new Vector3(x, y, z);
+            NavMesh.SamplePosition(target, out hit, 2f, NavMesh.AllAreas);
+            return hit.position;
         }
 
-        public void addPos(string type, Transform area)
+        public void SetLeavingPos(Transform area)
         {
-            /*if (type == "register")
-            {
-                registerPos = getPos(area);
-            }
-            else*/ if (type == "leaving")
-            {
-                leavingPos = getPos(area);
-            }
+            leavingPos = GetPos(area);
         }
 
-        public void addTaskInArea(Transform area)
-        {
-            Tasks.Add(getPos(area));
-        }
-
-        public void addTask(Vector3 toAdd)
+        public void AddTask(Vector3 toAdd)
         {
             if (!Tasks.Contains(toAdd)) Tasks.Add(toAdd);
         }

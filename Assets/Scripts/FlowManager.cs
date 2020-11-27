@@ -68,6 +68,21 @@ namespace Profielwerkstuk
             Debug.Log("x: " + v.x + ", y: " + v.y + ", z: " + v.z);
         }
 
+        public static void printList(List<Vector3> l)
+        {
+            foreach (Vector3 v in l)
+            {
+                PrintVector(v);
+            }
+        }
+        public static void printDict(Dictionary<Vector3, bool> d)
+        {
+            foreach (var pair in d)
+            {
+                PrintVector(pair.Key);
+            }
+        }
+
     }
 
     public class FlowManager : MonoBehaviour
@@ -75,8 +90,8 @@ namespace Profielwerkstuk
         private int hours = 0;
         private int minutes = 0;
         private float seconds = 0.0f;
-        private float timeInHours;
-
+        public float timeInHours;
+        public float nextSpawn;
         private int index = 0;
 
         /* When spawning a new player, the following variables need to be assigned:
@@ -86,12 +101,9 @@ namespace Profielwerkstuk
          * Parent of coughclouds
         */
 
-        public Transform spawningGround;
-        public Transform taskGround;
-        public Transform registerGround;
-        public Transform leavingGround;
+        public Transform spawningArea;
+        public Transform leavingArea;
     
-        public Transform ground;
         public Transform coughClouds;
 
         public GameObject playerPrefab;
@@ -115,33 +127,34 @@ namespace Profielwerkstuk
                                                               Config.closingTime));
             }
             spawningTimes.Sort();
-            /*foreach(float time in spawningTimes)
-            {
-                print(time);
-            }*/
-            //print(spawningTimes[0]);    
+
+            nextSpawn = spawningTimes[0];    
             hours = (int)Config.openingTime;
             minutes = (int)((Config.openingTime % 1) * 60);
 
         }
 
-        IEnumerator spawnPlayer(string name)
+        IEnumerator SpawnPlayer(string name)
         {
             //print("spawning...");
-            var minX = spawningGround.position.x - spawningGround.localScale.x / 2;
-            var maxX = spawningGround.position.x + spawningGround.localScale.x / 2;
-            var minZ = spawningGround.position.z - spawningGround.localScale.z / 2;
-            var maxZ = spawningGround.position.z + spawningGround.localScale.z / 2;
-            var y = spawningGround.position.y + spawningGround.localScale.y / 2;
+            var minX = spawningArea.position.x - spawningArea.localScale.x / 2;
+            var maxX = spawningArea.position.x + spawningArea.localScale.x / 2;
+            var minZ = spawningArea.position.z - spawningArea.localScale.z / 2;
+            var maxZ = spawningArea.position.z + spawningArea.localScale.z / 2;
+            var y = spawningArea.position.y + spawningArea.localScale.y / 2;
 
             // Generates starting position
+            NavMeshHit hit;
+            Vector3 spawnPosition;
             float x = Random.Range(minX, maxX);
             float z = Random.Range(minZ, maxZ);
-            var spawnPosition = new Vector3(x, y, z);
+            spawnPosition = new Vector3(x, y, z);
+            NavMesh.SamplePosition(spawnPosition, out hit, 2f, NavMesh.AllAreas);
+
             //print("generated position");
-                
-            // Spawns player    
-            GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity, transform);
+
+            // Spawns player
+            GameObject player = Instantiate(playerPrefab, hit.position, Quaternion.identity, transform);
             yield return new WaitForEndOfFrame();
             player.name = name;
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
@@ -149,6 +162,7 @@ namespace Profielwerkstuk
             playerMovement.dataHoarder = dataHoarder;
             playerMovement.id = name;
             //print("spawned player");
+
             // Infects player   
             if (Random.Range(0.0f, 1.0f) >= Config.chanceInfected)
             {
@@ -156,40 +170,33 @@ namespace Profielwerkstuk
                 player.GetComponent<MeshRenderer>().material = playerMovement.infectedMaterial;
             }
 
-            dataHoarder.onSpawn(player.name, playerMovement.infected);
+            dataHoarder.OnSpawn(player.name, playerMovement.infected);
 
             // Assigns Tasks
             //print("assigning tasks");
+            //print(taskPositions.Count);
 
             TaskManager taskManager = playerMovement.taskManager;
             NavMeshAgent agent = playerMovement.agent;
             int numTasks = Random.Range(15, 25);
             List<int> tasks = new List<int>();
+            int randomIndex;
+
             for (int t = 0; t < numTasks; t++)
             {
-                int randomIndex;
-                do
-                {
-                    randomIndex = Random.Range(0, taskPositions.Count);
-                } while (tasks.Contains(randomIndex));
-                tasks.Add(randomIndex);
+                randomIndex = Random.Range(0, taskPositions.Count);
+                if(!tasks.Contains(randomIndex)) tasks.Add(randomIndex);
             }
 
-            foreach(int index in tasks)
-            {
-                taskManager.addTask(taskPositions[index]);
-            }
+            foreach(int i in tasks) taskManager.AddTask(taskPositions[i]);
 
-            // taskManager.addPos("register", registerGround);
-            taskManager.addPos("leaving", leavingGround);
-
-            taskManager.waitingForRegisterPos = new Vector3(11, 1, -23);
-
-            playerMovement.target = taskManager.getTask();
+            taskManager.SetLeavingPos(leavingArea);
+            // activates player
+            playerMovement.target = taskManager.GetTask();
             agent.SetDestination(playerMovement.target);
-
             playerMovement.status = "ACTIVE";
             //print("done spawning");
+
         }
 
         /*IEnumerator spawnPlayers(int numPlayers)
@@ -208,13 +215,13 @@ namespace Profielwerkstuk
         void Update()
         {
 
-            if (Input.GetMouseButtonDown(0))
+            /*if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 Physics.Raycast(ray, out hit);
                 Utility.PrintVector(hit.point); 
-            }
+            }*/
 
 
             seconds += Time.deltaTime;
@@ -232,11 +239,12 @@ namespace Profielwerkstuk
             timeInHours = hours + (minutes + seconds / 60) / 60;
             if(index < spawningTimes.Count)
             {
-                if(timeInHours > spawningTimes[index])
+                if(timeInHours > nextSpawn)
                 {
                     // print("Spawning player");
                     index++;
-                    StartCoroutine(spawnPlayer("" + index));
+                    StartCoroutine(SpawnPlayer("" + index));
+                    nextSpawn = spawningTimes[index];
                     // print("Spawned player");
                 }
             }

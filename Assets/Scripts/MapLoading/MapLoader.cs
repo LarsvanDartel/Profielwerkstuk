@@ -9,8 +9,6 @@ namespace Profielwerkstuk {
         public TextAsset JSONFile;
         private Map map;
 
-        public Transform mapParent;
-
         public Transform shelfParent;
         public Transform registerParent;
         public Transform doorParent;
@@ -20,7 +18,6 @@ namespace Profielwerkstuk {
         public GameObject registerPrefab;
         public GameObject doorPrefab;
         public GameObject wallPrefab;
-        public GameObject groundPrefab;
         public FlowManager flowManager;
         public RegisterManager registerManager;
 
@@ -30,54 +27,28 @@ namespace Profielwerkstuk {
         {
             map = new Map();
             JsonUtility.FromJsonOverwrite(JSONFile.ToString(), map);
-            buildMap(map);
-            StartCoroutine(getTaskPositions());
+            BuildMap(map);
+            StartCoroutine(GetTaskPositions());
+            StartCoroutine(GetRegisterPositions());
         }
 
-        void buildMap(Map map)
+        void BuildMap(Map map)
         {
-            // GameObject ground = Instantiate(groundPrefab, map.ground.pos, Quaternion.identity, transform);
-            // ground.transform.localScale = map.ground.size;
-            // flowManager.ground = ground.transform;
-
-            GameObject taskArea = new GameObject("TaskArea");
-            taskArea.transform.parent = mapParent;
-            taskArea.transform.position = map.taskArea.pos;
-            taskArea.transform.rotation = Quaternion.identity;
-            taskArea.transform.localScale = map.taskArea.size;
-            flowManager.taskGround = taskArea.transform;
-
-            GameObject registerArea = new GameObject("RegisterArea");
-            registerArea.transform.parent = mapParent;
-            registerArea.transform.position = map.registerArea.pos;
-            registerArea.transform.rotation = Quaternion.identity;
-            registerArea.transform.localScale = map.registerArea.size;
-            flowManager.registerGround = registerArea.transform;
-
             GameObject leavingArea = new GameObject("LeavingArea");
-            leavingArea.transform.parent = mapParent;
+            
+            leavingArea.transform.parent = transform;
             leavingArea.transform.position = map.leavingArea.pos;
             leavingArea.transform.rotation = Quaternion.identity;
             leavingArea.transform.localScale = map.leavingArea.size;
-            flowManager.leavingGround = leavingArea.transform;
+            flowManager.leavingArea = leavingArea.transform;
 
             //print(map.spawningArea.pos);
             GameObject spawningArea = new GameObject("SpawningArea");
-            spawningArea.transform.parent = mapParent;
+            spawningArea.transform.parent = transform;
             spawningArea.transform.position = map.spawningArea.pos;
             spawningArea.transform.rotation = Quaternion.identity;
             spawningArea.transform.localScale = map.spawningArea.size;
-            flowManager.spawningGround = spawningArea.transform;
-
-            registerManager.addRegister(new Vector3(16, 1, 3));
-            registerManager.addRegister(new Vector3(16, 1, -1));
-            registerManager.addRegister(new Vector3(16, 1, -5));
-            registerManager.addRegister(new Vector3(13, 1, -13));
-            registerManager.addRegister(new Vector3(19, 1, -13));
-            registerManager.addRegister(new Vector3(13, 1, -19));
-            registerManager.addRegister(new Vector3(19, 1, -19));
-            registerManager.addRegister(new Vector3(13, 1, -21));
-            registerManager.addRegister(new Vector3(19, 1, -21));
+            flowManager.spawningArea = spawningArea.transform;
 
             foreach (Block shelf in map.shelves) {
                 Instantiate(shelfPrefab, shelf.pos, Quaternion.identity, shelfParent).transform.localScale = shelf.size;
@@ -98,10 +69,11 @@ namespace Profielwerkstuk {
             }
         }
 
-        IEnumerator getTaskPositions()
+        IEnumerator GetTaskPositions()
         {
             yield return null;
-            flowManager.taskPositions = new List<Vector3>();
+            var taskPositions = new List<Vector3>();
+
             // generates positions for tasks:
             foreach (Transform child in shelfParent)
             {
@@ -115,12 +87,12 @@ namespace Profielwerkstuk {
                     NavMeshHit hit;
                     if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
                     {
-                        flowManager.taskPositions.Add(hit.position);
+                        taskPositions.Add(hit.position);
                     }
                     newPos = new Vector3(pos.x + x - scale.x / 2, -1, pos.z - scale.z / 2 - 1);
                     if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
                     {
-                        flowManager.taskPositions.Add(hit.position);
+                        taskPositions.Add(hit.position);
                     }
                 }
                 // find all positions along the x-axis
@@ -130,16 +102,42 @@ namespace Profielwerkstuk {
                     NavMeshHit hit;
                     if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
                     {
-                        flowManager.taskPositions.Add(hit.position);
+                        taskPositions.Add(hit.position);
                     }
                     newPos = new Vector3(pos.x - scale.x / 2 - 1, -1, pos.z - scale.z / 2 + z);
                     if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
                     {
-                        flowManager.taskPositions.Add(hit.position);
+                        taskPositions.Add(hit.position);
                     }
                 }
             }
+            flowManager.taskPositions = taskPositions;
         }
+        IEnumerator GetRegisterPositions()
+        {
+            yield return null;
+            // generates positions for tasks:
+            foreach (Transform child in registerParent)
+            {
+                Vector3 scale = child.localScale;
+                Vector3 pos = child.position;
 
+                // find all positions along the x-axis
+                Vector3 newPos = new Vector3(pos.x, -1, pos.z + scale.z / 2 + 1);
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
+                {
+                    registerManager.AddRegister(hit.position);
+                }
+                newPos = new Vector3(pos.x, -1, pos.z - scale.z / 2 - 1);
+                if (NavMesh.SamplePosition(newPos, out hit, 0.1f, NavMesh.AllAreas))
+                {
+                    registerManager.AddRegister(hit.position);
+                }
+            }
+            registerManager.waitingForRegisterPos = new Vector3(11, 1, -23);
+
+            //Utility.printDict(registerManager.registerTaken);
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Profielwerkstuk {
         public Queue<PlayerMovement> playersWaiting;
         public List<Vector3> registers;
         public Dictionary<Vector3, bool> registerTaken;
+        public Vector3 waitingForRegisterPos;
         void Start()
         {
             playersWaiting = new Queue<PlayerMovement>();
@@ -14,7 +15,7 @@ namespace Profielwerkstuk {
             registerTaken = new Dictionary<Vector3, bool>();
         }
 
-        public void onLeaveRegister(Vector3 register)
+        public void OnLeaveRegister(Vector3 register)
         {
             if (!registerTaken.ContainsKey(register))
             {
@@ -24,15 +25,14 @@ namespace Profielwerkstuk {
             registerTaken[register] = false;
             if(playersWaiting.Count > 0)
             {
-                var player = playersWaiting.Peek();
+                var player = playersWaiting.Dequeue();
                 player.register = register;
                 player.target = register;
                 player.waiting = false;
-                playersWaiting.Dequeue();
             }
         }
 
-        public void onEnterRegister(Vector3 register)
+        public void OnEnterRegister(Vector3 register)
         {
             if (!registerTaken.ContainsKey(register))
             {
@@ -42,12 +42,13 @@ namespace Profielwerkstuk {
             registerTaken[register] = true;
         }
 
-        public void addRegister(Vector3 register)
+        public void AddRegister(Vector3 register)
         {
+            if (registerTaken.ContainsKey(register)) return;
             registerTaken.Add(register, false);
         }
 
-        public bool waitForRegister(PlayerMovement player)
+        public bool WaitForRegister(PlayerMovement player, out Vector3 target)
         {
             bool registerFree = false;
             Vector3 registerPos = new Vector3();
@@ -63,11 +64,12 @@ namespace Profielwerkstuk {
             if (!registerFree)
             {
                 playersWaiting.Enqueue(player);
+                target = waitingForRegisterPos;
                 return false;
             } else
             {
-                player.target = registerPos;
-                onEnterRegister(registerPos);
+                target = registerPos;
+                OnEnterRegister(registerPos);
                 return true;
             }
         }

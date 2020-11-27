@@ -681,11 +681,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dafba59a10db254097f87e4a84c7777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeInHours: 0
+  nextSpawn: 0
   spawningGround: {fileID: 0}
   taskGround: {fileID: 0}
   registerGround: {fileID: 0}
   leavingGround: {fileID: 0}
-  ground: {fileID: 0}
   coughClouds: {fileID: 858312197}
   playerPrefab: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
     type: 3}

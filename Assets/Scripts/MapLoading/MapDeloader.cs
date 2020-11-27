@@ -13,32 +13,17 @@ namespace Profielwerkstuk {
             {
                 Vector3 pos = Utility.Round(child.position, 2);
                 Vector3 scale = Utility.Round(Utility.Abs(Utility.Rotate(child.localScale) * 2), 2);
-                switch (child.name) {
-                    case "Ground":
-                        {
-                            map.ground = new Block(pos, scale);
-                            break;
-                        }
-                    case "SpawningGround":
+                switch (child.name) { 
+                    case "SpawningArea":
                         {
                             map.spawningArea = new Block(pos, scale);
                             break;
                         }
-                    case "LeavingGround":
+                    case "LeavingArea":
                         {
                             map.leavingArea = new Block(pos, scale);
                             break;
                         }
-                    case "RegisterGround":
-                        {
-                            map.registerArea = new Block(pos, scale);
-                            break;
-                        }
-                    case "TaskGround":
-                        {
-                            map.taskArea = new Block(pos, scale);
-                            break;
-                        } 
                     case "Doors":
                         {
                             foreach (Transform block in child)

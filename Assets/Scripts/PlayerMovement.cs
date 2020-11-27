@@ -52,12 +52,6 @@ namespace Profielwerkstuk
                 agent.SetDestination(target);
             }*/
             if (status == "ASSIGNING") return;
-            if (status == "DONE")
-            {
-                Destroy(gameObject);
-                return;
-            }
-
             if (infected)
             {
                 // print(timeSinceLastCough);
@@ -77,46 +71,44 @@ namespace Profielwerkstuk
                 var pos = transform.position;
                 if (agent.remainingDistance <= agent.stoppingDistance)
                 {
-                    if (status == "ACTIVE") taskManager.removeTask(target);
+                    if (status == "ACTIVE") taskManager.RemoveTask(target);
                     if (taskManager.Tasks.Count == 0)
                     {
                         if (status == "ACTIVE")
                         { 
                             
-                            if (transform.parent.GetComponent<RegisterManager>().waitForRegister(transform.GetComponent<PlayerMovement>()))
-                            {
+                            if (transform.parent.GetComponent<RegisterManager>().WaitForRegister(transform.GetComponent<PlayerMovement>(), out target))
                                 status = "CHECKING OUT";
-                                agent.SetDestination(target);
-                            }
                             else
-                            {
                                 status = "WAITING FOR REGISTER";
-                                target = taskManager.waitingForRegisterPos;
-                                agent.SetDestination(target);
-                            }
-                            StartCoroutine(waitForNextTask(Random.Range(5, 15)));
+
+                            agent.SetDestination(target);
+                            StartCoroutine(WaitForNextTask(Random.Range(5, 15)));
                         }
                         else if (status == "WAITING FOR REGISTER")
                         {
                             waiting = true;
-                            StartCoroutine(activateObstacle());
+                            StartCoroutine(ActivateObstacle());
                         }
                         else if (status == "CHECKING OUT")
                         {
                             register = target;
                             target = taskManager.leavingPos;
                             status = "LEAVING";
-                            StartCoroutine(waitForNextTask(Random.Range(20, 40)));
+                            StartCoroutine(WaitForNextTask(Random.Range(20, 40)));
                         }
                         else if (status == "LEAVING")
                         {
-                            dataHoarder.onLeave(id, infected);
-                            Destroy(gameObject);
+                            dataHoarder.OnLeave(id, infected);
+                            print(name + " HAS LEFT");
+                            transform.GetComponent<MeshRenderer>().enabled = false;
+                            DestroyIn(50);
+                            // Destroy(gameObject);
                         }
                     } else
                     {
-                        target = taskManager.getTask();
-                        StartCoroutine(waitForNextTask(Random.Range(5, 15)));
+                        target = taskManager.GetTask();
+                        StartCoroutine(WaitForNextTask(Random.Range(5, 15)));
                     }
                 }
             }
@@ -140,7 +132,7 @@ namespace Profielwerkstuk
             }
             if (!waiting && waitingFor.Count == 0 && !agent.enabled)
             {
-                StartCoroutine(deactivateObstacle());
+                StartCoroutine(DeactivateObstacle());
             }
         }
 
@@ -152,7 +144,7 @@ namespace Profielwerkstuk
             {
                 if (waitingFor.Contains(other.gameObject)) return;
                 waitingFor.Add(other.gameObject);
-                StartCoroutine(activateObstacle());
+                StartCoroutine(ActivateObstacle());
             }
             else
             {
@@ -160,7 +152,7 @@ namespace Profielwerkstuk
                 {
                     if (status == "ACTIVE")
                     {
-                        target = taskManager.getTask();
+                        target = taskManager.GetTask();
                         agent.SetDestination(target);
                     }
                 }                    
@@ -173,18 +165,18 @@ namespace Profielwerkstuk
             waitingFor.Remove(other.gameObject);
         }
 
-        IEnumerator waitForNextTask(int s)
+        IEnumerator WaitForNextTask(int s)
         {
             waiting = true;
-            StartCoroutine(activateObstacle());
+            StartCoroutine(ActivateObstacle());
             yield return new WaitForSeconds(s);
             waiting = false;
             if(status == "LEAVING")
             {
-                transform.parent.GetComponent<RegisterManager>().onLeaveRegister(register);
+                transform.parent.GetComponent<RegisterManager>().OnLeaveRegister(register);
             }
         }
-        IEnumerator activateObstacle()
+        IEnumerator ActivateObstacle()
         {
             agent.enabled = false;
             yield return new WaitForEndOfFrame();
@@ -197,7 +189,7 @@ namespace Profielwerkstuk
             yield return null;
         }
 
-        IEnumerator deactivateObstacle()
+        IEnumerator DeactivateObstacle()
         {
             obstacle.enabled = false;
             yield return null;
@@ -206,12 +198,19 @@ namespace Profielwerkstuk
             if (agent.enabled) agent.SetDestination(target);
         }
 
-        public void infect()
+        public void Infect()
         {
             Debug.Log(name + " is infected");
             infected = true;
             gameObject.GetComponent<MeshRenderer>().material = infectedMaterial;
         }
+
+        IEnumerator DestroyIn(float s)
+        {
+            yield return new WaitForSeconds(s);
+            Destroy(gameObject);
+        }
+
     }
 }
 

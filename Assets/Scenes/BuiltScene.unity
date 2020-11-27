@@ -112,36 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &2412066
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2412067}
-  m_Layer: 0
-  m_Name: TaskGround
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2412067
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2412066}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 4}
-  m_LocalScale: {x: 24, y: 1, z: 20}
-  m_Children: []
-  m_Father: {fileID: 1760870595}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &25467380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -570,7 +540,7 @@ Transform:
   - {fileID: 1944958304}
   - {fileID: 1669640255}
   m_Father: {fileID: 1760870595}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &295921675
 MonoBehaviour:
@@ -1226,7 +1196,7 @@ Transform:
   m_LocalScale: {x: 26, y: 1, z: 30}
   m_Children: []
   m_Father: {fileID: 1760870595}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &548004442
 BoxCollider:
@@ -1810,7 +1780,7 @@ GameObject:
   m_Component:
   - component: {fileID: 831583015}
   m_Layer: 0
-  m_Name: LeavingGround
+  m_Name: LeavingArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2424,36 +2394,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5e114ff62037c74da8ccd1b3fec043d, type: 3}
---- !u!1 &1024413518
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1024413519}
-  m_Layer: 0
-  m_Name: RegisterGround
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1024413519
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024413518}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5, y: 0, z: -8}
-  m_LocalScale: {x: 14, y: 1, z: 4}
-  m_Children: []
-  m_Father: {fileID: 1760870595}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1058614038
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3267,7 +3207,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1504688903}
   m_Layer: 0
-  m_Name: SpawningGround
+  m_Name: SpawningArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3690,7 +3630,7 @@ Transform:
   - {fileID: 620591866}
   - {fileID: 1517696914}
   m_Father: {fileID: 1760870595}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1736910467
 MonoBehaviour:
@@ -3738,8 +3678,6 @@ Transform:
   m_Children:
   - {fileID: 1504688903}
   - {fileID: 831583015}
-  - {fileID: 1024413519}
-  - {fileID: 2412067}
   - {fileID: 548004441}
   - {fileID: 295921674}
   - {fileID: 1736910466}
@@ -3789,15 +3727,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dafba59a10db254097f87e4a84c7777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawningGround: {fileID: 1504688903}
-  taskGround: {fileID: 2412067}
-  registerGround: {fileID: 1024413519}
-  leavingGround: {fileID: 831583015}
-  ground: {fileID: 548004441}
+  timeInHours: 0
+  nextSpawn: 0
+  spawningArea: {fileID: 0}
+  leavingArea: {fileID: 0}
   coughClouds: {fileID: 858312197}
   playerPrefab: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
     type: 3}
   dataHoarder: {fileID: 0}
+  cam: {fileID: 0}
+  taskPositions: []
 --- !u!4 &1766353319
 Transform:
   m_ObjectHideFlags: 0
@@ -3842,7 +3781,7 @@ Transform:
   - {fileID: 1524818873}
   - {fileID: 447739699}
   m_Father: {fileID: 1760870595}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1786467842 stripped
 Transform:
@@ -4145,7 +4084,7 @@ Transform:
   - {fileID: 493407000}
   - {fileID: 2077733931}
   m_Father: {fileID: 1760870595}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2084748811
 MonoBehaviour:
