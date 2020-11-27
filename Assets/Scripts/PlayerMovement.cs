@@ -28,7 +28,7 @@ namespace Profielwerkstuk
         // public Camera cam;
         public string id;
         public DataHoarder dataHoarder;
-
+        public RegisterManager registerManager;
         public Vector3 register;
         void Start()
         {
@@ -68,49 +68,50 @@ namespace Profielwerkstuk
             }
 
             // check if agent has reached goal
-            if (agent.enabled && !agent.isStopped)
+            if (agent.enabled)
             {
                 var pos = transform.position;
                 if (agent.remainingDistance <= agent.stoppingDistance)
                 {
-                    if (status == "ACTIVE") taskManager.RemoveTask(target);
-                    if (taskManager.Tasks.Count == 0)
+                    if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                     {
-                        if (status == "ACTIVE")
-                        { 
-                            
-                            if (transform.parent.GetComponent<RegisterManager>().WaitForRegister(transform.GetComponent<PlayerMovement>(), out target))
-                                status = "CHECKING OUT";
-                            else
-                                status = "WAITING FOR REGISTER";
+                        if (status == "ACTIVE") taskManager.RemoveTask(target);
+                        if (taskManager.Tasks.Count == 0)
+                        {
+                            if (status == "ACTIVE")
+                            {
+                                if (registerManager.WaitForRegister(this, out target))
+                                    status = "CHECKING OUT";
+                                else
+                                    status = "WAITING FOR REGISTER";
 
-                            agent.SetDestination(target);
+                                print(name + " " + status);
+                                StartCoroutine(WaitForNextTask(Random.Range(5, 15)));
+                            }
+                            else if (status == "WAITING FOR REGISTER")
+                            {
+                                waiting = true;
+                                StartCoroutine(ActivateObstacle());
+                            }
+                            else if (status == "CHECKING OUT")
+                            {
+                                register = target;
+                                target = taskManager.leavingPos;
+                                status = "LEAVING";
+                                StartCoroutine(WaitForNextTask(Random.Range(20, 40)));
+                            }
+                            else if (status == "LEAVING")
+                            {
+                                dataHoarder.OnLeave(id, infected);
+                                // print(name + " HAS LEFT");
+                                Destroy(gameObject);
+                            }
+                        }
+                        else
+                        {
+                            target = taskManager.GetTask();
                             StartCoroutine(WaitForNextTask(Random.Range(5, 15)));
                         }
-                        else if (status == "WAITING FOR REGISTER")
-                        {
-                            waiting = true;
-                            StartCoroutine(ActivateObstacle());
-                        }
-                        else if (status == "CHECKING OUT")
-                        {
-                            register = target;
-                            target = taskManager.leavingPos;
-                            status = "LEAVING";
-                            StartCoroutine(WaitForNextTask(Random.Range(20, 40)));
-                        }
-                        else if (status == "LEAVING")
-                        {
-                            dataHoarder.OnLeave(id, infected);
-                            print(name + " HAS LEFT");
-                            transform.GetComponent<MeshRenderer>().enabled = false;
-                            DestroyIn(50);
-                            // Destroy(gameObject);
-                        }
-                    } else
-                    {
-                        target = taskManager.GetTask();
-                        StartCoroutine(WaitForNextTask(Random.Range(5, 15)));
                     }
                 }
             }
