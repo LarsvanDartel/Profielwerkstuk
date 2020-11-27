@@ -75,7 +75,7 @@ namespace Profielwerkstuk
                 {   
                     if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                     {
-                        if (Vector3.Distance(new Vector3(pos.x, target.y, pos.y), target) < agent.stoppingDistance + agent.radius + 1)
+                        if (Vector3.Distance(new Vector3(pos.x, target.y, pos.y), target) < agent.stoppingDistance + agent.radius - 1)
                         {
                             Utility.PrintVector(pos);
                             Utility.PrintVector(target);
