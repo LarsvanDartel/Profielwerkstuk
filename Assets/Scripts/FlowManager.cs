@@ -113,6 +113,7 @@ namespace Profielwerkstuk
         private int playersPerDay;
         private List<float> spawningTimes;
         public List<Vector3> taskPositions;
+        public RegisterManager registerManager;
         // Start is called before the first frame update
         void Start()
         {
@@ -161,6 +162,7 @@ namespace Profielwerkstuk
             playerMovement.coughCloudParent = coughClouds;
             playerMovement.dataHoarder = dataHoarder;
             playerMovement.id = name;
+            playerMovement.registerManager = registerManager;
             //print("spawned player");
 
             // Infects player   

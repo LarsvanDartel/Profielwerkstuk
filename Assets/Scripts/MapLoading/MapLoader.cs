@@ -30,6 +30,7 @@ namespace Profielwerkstuk {
             BuildMap(map);
             StartCoroutine(GetTaskPositions());
             StartCoroutine(GetRegisterPositions());
+            flowManager.registerManager = registerManager;
         }
 
         void BuildMap(Map map)
