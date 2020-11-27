@@ -27,7 +27,7 @@ namespace Profielwerkstuk {
                 // print(1-Mathf.Pow(1-infectionRate,Time.deltaTime*60));
                 if (Random.Range(0.0f, 1.0f) < 1-Mathf.Pow(1-infectionRate,Time.deltaTime*60))
                 {
-                    player.Infect();
+                    player.Asymptomatic();
                     playersInCloud.Remove(player);
                 }
             }

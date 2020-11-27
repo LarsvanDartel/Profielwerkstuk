@@ -186,8 +186,11 @@ MonoBehaviour:
   coughCloudPrefab: {fileID: 7876065576391416854, guid: 8b5ec2d16ab56f64dbf51d3dd02c525f,
     type: 3}
   infectedMaterial: {fileID: 2100000, guid: ec6b05cd6cf263a468fa2dd4ad941b43, type: 2}
+  asymptomaticMaterial: {fileID: 2100000, guid: 54b24ed6397cb844a8040c2c2da649c9,
+    type: 2}
   coughCloudParent: {fileID: 0}
   infected: 0
+  asymptomatic: 0
   waiting: 0
   id: 
   dataHoarder: {fileID: 0}
