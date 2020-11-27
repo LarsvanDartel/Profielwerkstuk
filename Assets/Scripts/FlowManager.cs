@@ -87,9 +87,9 @@ namespace Profielwerkstuk
 
     public class FlowManager : MonoBehaviour
     {
-        private int hours = 0;
-        private int minutes = 0;
-        private float seconds = 0.0f;
+        public int hours = 0;
+        public int minutes = 0;
+        public float seconds = 0.0f;
         public float timeInHours;
         public float nextSpawn;
         private int index = 0;
