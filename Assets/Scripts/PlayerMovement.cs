@@ -18,8 +18,10 @@ namespace Profielwerkstuk
         public List<GameObject> waitingFor;
         public GameObject coughCloudPrefab;
         public Material infectedMaterial;
+        public Material asymptomaticMaterial;
         public Transform coughCloudParent;
         public bool infected = false;
+        public bool asymptomatic = false;
         public bool waiting;
         private float timeSinceLastCough = 0.0f;
         private float timeUntilCough = 0.0f;
@@ -52,7 +54,7 @@ namespace Profielwerkstuk
                 agent.SetDestination(target);
             }*/
             if (status == "ASSIGNING") return;
-            if (infected)
+            if (infected && !asymptomatic)
             {
                 // print(timeSinceLastCough);
                 timeSinceLastCough += Time.deltaTime;
@@ -206,6 +208,12 @@ namespace Profielwerkstuk
             Debug.Log(name + " is infected");
             infected = true;
             gameObject.GetComponent<MeshRenderer>().material = infectedMaterial;
+        }
+        public void Asymptomatic()
+        {
+            asymptomatic = true;
+            infected = true;
+            gameObject.GetComponent<MeshRenderer>().material = asymptomaticMaterial;
         }
 
         IEnumerator DestroyIn(float s)
