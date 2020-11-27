@@ -17,7 +17,7 @@ namespace Profielwerkstuk {
             //print(shopper.timeDespawned);
             if(outputData.peopleLeft == Config.playersPerDay) OnEnd();
         }
-        private void OnEnd() {
+        public void OnEnd() {
             string csvFile = "";
             CultureInfo ci = new CultureInfo("nl-NL");
             foreach(Shopper shopper in outputData.shoppers) {
