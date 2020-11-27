@@ -225,7 +225,7 @@ namespace Profielwerkstuk
                 Utility.PrintVector(hit.point); 
             }*/
 
-
+            
             seconds += Time.deltaTime;
             if (seconds >= 60)
             {
@@ -239,6 +239,9 @@ namespace Profielwerkstuk
             minutes %= 60;
 
             timeInHours = hours + (minutes + seconds / 60) / 60;
+            if(Config.closingTime < timeInHours) {
+                dataHoarder.OnEnd();
+            }
             if(index < spawningTimes.Count)
             {
                 if(timeInHours > nextSpawn)
