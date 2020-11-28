@@ -70,6 +70,13 @@ namespace Profielwerkstuk
             // check if agent has reached goal
             if (agent.enabled && !waiting)
             {
+
+                if (!CanReach(target))
+                {
+                    StartCoroutine(ActivateObstacle());
+                    return;
+                }
+
                 var pos = transform.position;
                 if (agent.remainingDistance <= agent.stoppingDistance)
                 {   
@@ -109,6 +116,10 @@ namespace Profielwerkstuk
                             {
                                 dataHoarder.OnLeave(id, infected);
                                 // print(name + " HAS LEFT");
+                                if(id == ""+Config.playersPerDay)
+                                {
+                                    transform.parent.GetComponent<FlowManager>().onLastPlayerLeave();
+                                }
                                 Destroy(gameObject);
                                 return;
                             }
@@ -123,6 +134,10 @@ namespace Profielwerkstuk
             }
             if (!waiting)
             {
+                if(waitingFor.Count == 0 && !agent.enabled)
+                {
+                    StartCoroutine(DeactivateObstacle());
+                }
                 for (int i = waitingFor.Count - 1; i >= 0; i--)
                 {
                     GameObject player = waitingFor[i];
@@ -139,10 +154,12 @@ namespace Profielwerkstuk
                     }
                 }
             }
-            if (!waiting && waitingFor.Count == 0 && !agent.enabled)
-            {
-                StartCoroutine(DeactivateObstacle());
-            }
+        }
+
+        private bool CanReach(Vector3 destination)
+        {
+            NavMeshPath path = new NavMeshPath();
+            return agent.CalculatePath(destination, path) && path.status == NavMeshPathStatus.PathComplete;
         }
 
         private void OnTriggerEnter(Collider other)

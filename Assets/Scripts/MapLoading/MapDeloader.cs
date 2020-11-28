@@ -60,6 +60,15 @@ namespace Profielwerkstuk {
                             }
                             break;
                         }
+                    case "OneWayGates":
+                        {
+                            foreach(Transform block in child)
+                            {
+                                scale = Utility.Round(Utility.Abs(block.localScale), 2);
+                                map.oneWayGates.Add(new Block(Utility.Round(block.position, 2), scale, block.rotation));
+                            }
+                            break;
+                        }
                 }    
             }
                 

@@ -10,6 +10,7 @@ namespace Profielwerkstuk {
         public List<Block> registers = new List<Block>();
         public List<Block> walls = new List<Block>();
         public List<Block> doors = new List<Block>();
+        public List<Block> oneWayGates = new List<Block>();
         public Block spawningArea;
         public Block leavingArea;
         public Block registerArea;

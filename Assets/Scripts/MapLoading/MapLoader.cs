@@ -13,11 +13,14 @@ namespace Profielwerkstuk {
         public Transform registerParent;
         public Transform doorParent;
         public Transform wallParent;
+        public Transform oneWayGateParent;
 
         public GameObject shelfPrefab;
         public GameObject registerPrefab;
         public GameObject doorPrefab;
         public GameObject wallPrefab;
+        public GameObject oneWayGatePrefab;
+
         public FlowManager flowManager;
         public RegisterManager registerManager;
 
@@ -68,6 +71,14 @@ namespace Profielwerkstuk {
                 Instantiate(registerPrefab, register.pos, register.rotation, registerParent).transform.localScale = register.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
+            foreach (Block oneWayGate in map.oneWayGates)
+            {
+                GameObject oneWayGateObject = Instantiate(oneWayGatePrefab, oneWayGate.pos, oneWayGate.rotation, oneWayGateParent);
+                oneWayGateObject.transform.localScale = oneWayGate.size;
+                oneWayGateObject.transform.GetComponent<NavMeshLink>().width = oneWayGate.size.x - 1; // 2*agent.radius
+                //yield return new WaitForSecondsRealtime(0.1f);
+            }
+
         }
 
         IEnumerator GetTaskPositions()
