@@ -255,5 +255,11 @@ namespace Profielwerkstuk
                 }
             }
         }
+
+        public void onLastPlayerLeave()
+        {
+
+        }
+
     }
 }

@@ -219,6 +219,36 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1 &365267658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 365267659}
+  m_Layer: 0
+  m_Name: OneWayGates
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &365267659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 365267658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1760870595}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,6 +598,7 @@ Transform:
   - {fileID: 1736910466}
   - {fileID: 1770710339}
   - {fileID: 2084748810}
+  - {fileID: 365267659}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -595,12 +626,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e3ff6d0999a0f4ca0b4557ffc6aa88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JSONFile: {fileID: 4900000, guid: cd5e25ecf290ded449a2fb66c5c3d049, type: 3}
-  mapParent: {fileID: 1760870595}
+  JSONFile: {fileID: 4900000, guid: 389c5227dc1761a4583661e7c3d5a59b, type: 3}
   shelfParent: {fileID: 1736910466}
   registerParent: {fileID: 2084748810}
   doorParent: {fileID: 1770710339}
   wallParent: {fileID: 295921674}
+  oneWayGateParent: {fileID: 365267659}
   shelfPrefab: {fileID: 3382828188991865890, guid: c7353d285d407b046993068be4dbce39,
     type: 3}
   registerPrefab: {fileID: 8653443219849441739, guid: 9c11e87c3ef16a94e8fc53b6993f62f1,
@@ -609,7 +640,7 @@ MonoBehaviour:
     type: 3}
   wallPrefab: {fileID: 6297965345013266234, guid: f5e114ff62037c74da8ccd1b3fec043d,
     type: 3}
-  groundPrefab: {fileID: 8257693741667353878, guid: b58e5f98403b8464abdfae1c141a2167,
+  oneWayGatePrefab: {fileID: 7961253791105288422, guid: 9f956be9bf90cfd44ae9eed08eeac30f,
     type: 3}
   flowManager: {fileID: 1766353318}
   registerManager: {fileID: 1766353320}
@@ -681,18 +712,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dafba59a10db254097f87e4a84c7777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hours: 0
+  minutes: 0
+  seconds: 0
   timeInHours: 0
   nextSpawn: 0
-  spawningGround: {fileID: 0}
-  taskGround: {fileID: 0}
-  registerGround: {fileID: 0}
-  leavingGround: {fileID: 0}
+  spawningArea: {fileID: 0}
+  leavingArea: {fileID: 0}
   coughClouds: {fileID: 858312197}
   playerPrefab: {fileID: 7548967978219277211, guid: 32d37a7e95bdb4947bbb2d3fdf1b2861,
     type: 3}
   dataHoarder: {fileID: 1760870599}
   cam: {fileID: 963194227}
   taskPositions: []
+  registerManager: {fileID: 0}
 --- !u!4 &1766353319
 Transform:
   m_ObjectHideFlags: 0
@@ -720,6 +753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registers: []
+  waitingForRegisterPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1770710338
 GameObject:
   m_ObjectHideFlags: 0

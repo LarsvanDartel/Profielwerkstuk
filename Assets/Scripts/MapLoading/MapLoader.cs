@@ -13,11 +13,14 @@ namespace Profielwerkstuk {
         public Transform registerParent;
         public Transform doorParent;
         public Transform wallParent;
+        public Transform oneWayGateParent;
 
         public GameObject shelfPrefab;
         public GameObject registerPrefab;
         public GameObject doorPrefab;
         public GameObject wallPrefab;
+        public GameObject oneWayGatePrefab;
+
         public FlowManager flowManager;
         public RegisterManager registerManager;
 
@@ -39,7 +42,7 @@ namespace Profielwerkstuk {
             
             leavingArea.transform.parent = transform;
             leavingArea.transform.position = map.leavingArea.pos;
-            leavingArea.transform.rotation = Quaternion.identity;
+            leavingArea.transform.rotation = map.leavingArea.rotation;
             leavingArea.transform.localScale = map.leavingArea.size;
             flowManager.leavingArea = leavingArea.transform;
 
@@ -47,27 +50,35 @@ namespace Profielwerkstuk {
             GameObject spawningArea = new GameObject("SpawningArea");
             spawningArea.transform.parent = transform;
             spawningArea.transform.position = map.spawningArea.pos;
-            spawningArea.transform.rotation = Quaternion.identity;
+            spawningArea.transform.rotation = map.leavingArea.rotation;
             spawningArea.transform.localScale = map.spawningArea.size;
             flowManager.spawningArea = spawningArea.transform;
 
             foreach (Block shelf in map.shelves) {
-                Instantiate(shelfPrefab, shelf.pos, Quaternion.identity, shelfParent).transform.localScale = shelf.size;
+                Instantiate(shelfPrefab, shelf.pos, shelf.rotation, shelfParent).transform.localScale = shelf.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
             foreach (Block door in map.doors) {
-                Instantiate(doorPrefab, door.pos, Quaternion.identity, doorParent).transform.localScale = door.size;
+                Instantiate(doorPrefab, door.pos, door.rotation, doorParent).transform.localScale = door.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
             foreach (Block wall in map.walls) {
-                Instantiate(wallPrefab, wall.pos, Quaternion.identity, wallParent).transform.localScale = wall.size;
+                Instantiate(wallPrefab, wall.pos, wall.rotation, wallParent).transform.localScale = wall.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
             foreach (Block register in map.registers)
             {
-                Instantiate(registerPrefab, register.pos, Quaternion.identity, registerParent).transform.localScale = register.size;
+                Instantiate(registerPrefab, register.pos, register.rotation, registerParent).transform.localScale = register.size;
                 //yield return new WaitForSecondsRealtime(0.1f);
             }
+            foreach (Block oneWayGate in map.oneWayGates)
+            {
+                GameObject oneWayGateObject = Instantiate(oneWayGatePrefab, oneWayGate.pos, oneWayGate.rotation, oneWayGateParent);
+                oneWayGateObject.transform.localScale = oneWayGate.size;
+                oneWayGateObject.transform.GetComponent<NavMeshLink>().width = oneWayGate.size.x - 1; // 2*agent.radius
+                //yield return new WaitForSecondsRealtime(0.1f);
+            }
+
         }
 
         IEnumerator GetTaskPositions()

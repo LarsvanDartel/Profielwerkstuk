@@ -12,7 +12,7 @@ namespace Profielwerkstuk {
             foreach (Transform child in transform) 
             {
                 Vector3 pos = Utility.Round(child.position, 2);
-                Vector3 scale = Utility.Round(Utility.Abs(Utility.Rotate(child.localScale) * 2), 2);
+                Vector3 scale = Utility.Round(Utility.Abs(child.localScale), 2);
                 switch (child.name) { 
                     case "SpawningArea":
                         {
@@ -28,8 +28,8 @@ namespace Profielwerkstuk {
                         {
                             foreach (Transform block in child)
                             {
-                                scale = Utility.Round(Utility.Abs(Utility.Rotate(block.localScale) * 2), 2);
-                                map.doors.Add(new Block(Utility.Round(block.position, 2), scale));
+                                scale = Utility.Round(Utility.Abs(block.localScale), 2);
+                                map.doors.Add(new Block(Utility.Round(block.position, 2), scale, block.rotation));
                             }
                             break;
                         }
@@ -37,7 +37,7 @@ namespace Profielwerkstuk {
                         {
                             foreach (Transform block in child)
                             {
-                                scale = Utility.Round(Utility.Abs(Utility.Rotate(block.localScale) * 2), 2);
+                                scale = Utility.Round(Utility.Abs(block.localScale), 2);
                                 map.registers.Add(new Block(Utility.Round(block.position, 2), scale));
                             }
                             break;
@@ -46,7 +46,7 @@ namespace Profielwerkstuk {
                         {
                             foreach (Transform block in child)
                             {
-                                scale = Utility.Round(Utility.Abs(Utility.Rotate(block.localScale) * 2), 2);
+                                scale = Utility.Round(Utility.Abs(block.localScale), 2);
                                 map.walls.Add(new Block(Utility.Round(block.position, 2), scale));
                             }
                             break;
@@ -55,8 +55,17 @@ namespace Profielwerkstuk {
                         {
                             foreach (Transform block in child)
                             {
-                                scale = Utility.Round(Utility.Abs(Utility.Rotate(block.localScale) * 2), 2);
+                                scale = Utility.Round(Utility.Abs(block.localScale), 2);
                                 map.shelves.Add(new Block(Utility.Round(block.position, 2), scale));
+                            }
+                            break;
+                        }
+                    case "OneWayGates":
+                        {
+                            foreach(Transform block in child)
+                            {
+                                scale = Utility.Round(Utility.Abs(block.localScale), 2);
+                                map.oneWayGates.Add(new Block(Utility.Round(block.position, 2), scale, block.rotation));
                             }
                             break;
                         }
