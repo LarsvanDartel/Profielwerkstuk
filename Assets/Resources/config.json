@@ -9,6 +9,6 @@
     "playersPerDay": 500,
 	"playerDistributionMean": 13,
 	"playerDistributionStandardDeviation": 4,
-	"openingTime":7,
-	"closingTime":21
+	"openingTime":12,
+	"closingTime":14
 }

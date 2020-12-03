@@ -23,7 +23,7 @@ namespace Profielwerkstuk {
             foreach(Shopper shopper in outputData.shoppers) {
                 csvFile += shopper.id + ";" + shopper.infectedStart + ";" + shopper.infectedEnd + ";" + shopper.timeSpawned.ToString(ci) + ";" + shopper.timeDespawned.ToString(ci) + "\n";
             }
-            //print(csvFile);
+            print(csvFile);
         }
     }
 

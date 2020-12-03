@@ -241,6 +241,7 @@ namespace Profielwerkstuk
             timeInHours = hours + (minutes + seconds / 60) / 60;
             if(Config.closingTime < timeInHours) {
                 dataHoarder.OnEnd();
+                return;
             }
             if(index < spawningTimes.Count)
             {
