@@ -168,8 +168,7 @@ namespace Profielwerkstuk
             // Infects player   
             if (Random.Range(0.0f, 1.0f) >= Config.chanceInfected)
             {
-                playerMovement.infected = true;
-                player.GetComponent<MeshRenderer>().material = playerMovement.infectedMaterial;
+                playerMovement.Infect();
             }
 
             dataHoarder.OnSpawn(player.name, playerMovement.infected);
@@ -194,7 +193,7 @@ namespace Profielwerkstuk
 
             taskManager.SetLeavingPos(leavingArea);
             // activates player
-            playerMovement.target = taskManager.GetTask();
+            taskManager.GetTask(out playerMovement.target);
             agent.SetDestination(playerMovement.target);
             playerMovement.status = "ACTIVE";
             //print("done spawning");
