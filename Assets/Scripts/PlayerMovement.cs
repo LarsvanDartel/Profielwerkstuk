@@ -67,26 +67,18 @@ namespace Profielwerkstuk
                 }
             }
 
+
+
             // check if agent has reached goal
             if (agent.enabled && !waiting)
             {
-
-                if (!CanReach(target))
-                {
-                    StartCoroutine(ActivateObstacle());
-                    return;
-                }
-
                 var pos = transform.position;
                 if (agent.remainingDistance <= agent.stoppingDistance)
-                {   
+                {
                     if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                     {
-                        if (Vector3.Distance(new Vector3(pos.x, target.y, pos.y), target) < agent.stoppingDistance + agent.radius - 1)
-                        {
-                           // Utility.PrintVector(pos);
-                           // Utility.PrintVector(target);
-                        }
+                        // Utility.PrintVector(pos);
+                        // Utility.PrintVector(target);
                         if (status == "ACTIVE") taskManager.RemoveTask(target);
                         if (taskManager.Tasks.Count == 0)
                         {
@@ -116,7 +108,7 @@ namespace Profielwerkstuk
                             {
                                 dataHoarder.OnLeave(id, infected);
                                 // print(name + " HAS LEFT");
-                                if(id == ""+Config.playersPerDay)
+                                if (id == "" + Config.playersPerDay)
                                 {
                                     transform.parent.GetComponent<FlowManager>().onLastPlayerLeave();
                                 }
@@ -126,8 +118,16 @@ namespace Profielwerkstuk
                         }
                         else
                         {
-                            target = taskManager.GetTask();
+                            if (taskManager.GetTask(out target))
+                            {
+
+                            }
+                            else
+                            {
+
+                            }
                             StartCoroutine(WaitForNextTask(Random.Range(5, 15)));
+
                         }
                     }
                 }
@@ -171,17 +171,6 @@ namespace Profielwerkstuk
                 if (waitingFor.Contains(other.gameObject)) return;
                 waitingFor.Add(other.gameObject);
                 StartCoroutine(ActivateObstacle());
-            }
-            else
-            {
-                if (agent.enabled)
-                {
-                    if (status == "ACTIVE")
-                    {
-                        target = taskManager.GetTask();
-                        agent.SetDestination(target);
-                    }
-                }                    
             }
         }
 
@@ -236,13 +225,6 @@ namespace Profielwerkstuk
             infected = true;
             gameObject.GetComponent<MeshRenderer>().material = asymptomaticMaterial;
         }
-
-        IEnumerator DestroyIn(float s)
-        {
-            yield return new WaitForSeconds(s);
-            Destroy(gameObject);
-        }
-
     }
 }
 

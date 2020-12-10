@@ -46,33 +46,28 @@ namespace Profielwerkstuk
             Tasks.Remove(toRemove);
         }
 
-        public Vector3 GetTask()
+        public bool GetTask(out Vector3 target)
         {
 
             // Debug.Log("There are " + Tasks.Count + " tasks left.");
-            if (Tasks.Count == 0)
-            {
-                return new Vector3(0, 0, 0);
-            }
-            Vector3 closest = Tasks[0];
+            target = Vector3.positiveInfinity;
             NavMeshPath path = new NavMeshPath();
-            agent.CalculatePath(closest, path);
-            float minDistance = GetPathDistance(path);
+            float minDistance = -1;
             // Debug.Log(minDistance);
-            for (int i = 1; i < Tasks.Count; i++)
+            for (int i = 0; i < Tasks.Count; i++)
             {
                 if (!CanReach(Tasks[i])) continue;
                 agent.CalculatePath(Tasks[i], path);
                 float distance = GetPathDistance(path);
                 // Debug.Log(distance); 
-                if (distance < minDistance)
+                if (distance < minDistance || minDistance < 0)
                 {
                     // Debug.Log("Distance was altered");
                     minDistance = distance;
-                    closest = Tasks[i];
+                    target = Tasks[i];
                 }
             }
-            return closest;
+            return minDistance > 0;
         }
         private Vector3 GetPos(Transform area)
         {
