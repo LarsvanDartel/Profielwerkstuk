@@ -147,10 +147,12 @@ namespace Profielwerkstuk
             // Generates starting position
             NavMeshHit hit;
             Vector3 spawnPosition;
-            float x = Random.Range(minX, maxX);
-            float z = Random.Range(minZ, maxZ);
-            spawnPosition = new Vector3(x, y, z);
-            NavMesh.SamplePosition(spawnPosition, out hit, 2f, NavMesh.AllAreas);
+            do
+            {
+                float x = Random.Range(minX, maxX);
+                float z = Random.Range(minZ, maxZ);
+                spawnPosition = new Vector3(x, y, z);
+            } while (!NavMesh.SamplePosition(spawnPosition, out hit, 2f, NavMesh.AllAreas));
 
             //print("generated position");
 
@@ -193,7 +195,7 @@ namespace Profielwerkstuk
 
             taskManager.SetLeavingPos(leavingArea);
             // activates player
-            bool foundTask = taskManager.GetTask(out playerMovement.target);
+            taskManager.GetTask(out playerMovement.target);
             
             agent.SetDestination(playerMovement.target);
             playerMovement.status = "ACTIVE";
@@ -243,7 +245,8 @@ namespace Profielwerkstuk
                 dataHoarder.OnEnd();
                 return;
             }
-            if(index < spawningTimes.Count)
+
+            if(index < spawningTimes.Count-1)
             {
                 if(timeInHours > nextSpawn)
                 {

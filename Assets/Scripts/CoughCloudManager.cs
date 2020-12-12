@@ -31,6 +31,13 @@ namespace Profielwerkstuk {
                 var player = playersInCloud[i];
                 // print(player.infected);
                 // print(1-Mathf.Pow(1-infectionRate,Time.deltaTime*60));
+
+                if(player == null)
+                {
+                    playersInCloud.Remove(player);
+                    continue;
+                }
+
                 if (Random.Range(0.0f, 1.0f) < 1-Mathf.Pow(1-infectionRate,Time.deltaTime*60))
                 {
                     player.Asymptomatic();

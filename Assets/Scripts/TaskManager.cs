@@ -10,6 +10,7 @@ namespace Profielwerkstuk
         public Vector3 waitingForRegisterPos;
         public Vector3 leavingPos;  
 
+
         private NavMeshAgent agent;
 
         public TaskManager(NavMeshAgent _agent)
@@ -82,10 +83,11 @@ namespace Profielwerkstuk
 
             Vector3 target;
             NavMeshHit hit;
-            float x = Random.Range(minX, maxX);
-            float z = Random.Range(minZ, maxZ);
-            target = new Vector3(x, y, z);
-            NavMesh.SamplePosition(target, out hit, 2f, NavMesh.AllAreas);
+            do {
+                float x = Random.Range(minX, maxX);
+                float z = Random.Range(minZ, maxZ);
+                target = new Vector3(x, y, z);
+            } while(!NavMesh.SamplePosition(target, out hit, 2f, NavMesh.AllAreas));
             return hit.position;
         }
 
