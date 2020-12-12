@@ -30,6 +30,9 @@ namespace Profielwerkstuk
         public DataHoarder dataHoarder;
         public RegisterManager registerManager;
         public Vector3 register;
+        public bool unableToReachTarget = false;
+        float timeSinceLastCheck = 0.0f;
+        private int timesChecked = 0;
         void Start()
         {
             taskManager = new TaskManager(agent);
@@ -54,6 +57,16 @@ namespace Profielwerkstuk
                 agent.SetDestination(target);
             }*/
             if (status == "ASSIGNING") return;
+
+            if(timesChecked > 0 && !unableToReachTarget)
+            {
+                timesChecked = 0;
+            }
+            if(timesChecked == 10)
+            {
+                Destroy(gameObject);
+                print(name + " couldn't reach any targets, so he left. :'(");
+            }
             if (infected && !asymptomatic)
             {
                 // print(timeSinceLastCough);
@@ -66,7 +79,17 @@ namespace Profielwerkstuk
                     p.transform.GetComponent<Rigidbody>().velocity = transform.forward * 0.7f;
                 }
             }
-
+            if (unableToReachTarget && timeSinceLastCheck > 10)
+            {
+                timeSinceLastCheck = 0.0f;
+                StartCoroutine(checkForTarget());
+                timesChecked++;
+            }
+            if (unableToReachTarget)
+            {
+                timeSinceLastCheck += Time.deltaTime;
+                return;
+            }
 
 
             // check if agent has reached goal
@@ -120,11 +143,13 @@ namespace Profielwerkstuk
                         {
                             if (taskManager.GetTask(out target))
                             {
-
+                                // yay
                             }
                             else
                             {
-
+                                // fuk
+                                unableToReachTarget = true;
+                                StartCoroutine(ActivateObstacle());
                             }
                             StartCoroutine(WaitForNextTask(Random.Range(5, 15)));
 
@@ -147,7 +172,7 @@ namespace Profielwerkstuk
                         continue;
                     }
                     PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-                    if (playerMovement.waiting)
+                    if (playerMovement.waiting || playerMovement.unableToReachTarget)
                     {
                         waitingFor.Remove(player);
                         playerMovement.waitingFor.Add(gameObject);
@@ -211,6 +236,21 @@ namespace Profielwerkstuk
             if(!obstacle.enabled) agent.enabled = true;
             yield return new WaitForEndOfFrame();
             if (agent.enabled) agent.SetDestination(target);
+        }
+
+        IEnumerator checkForTarget()
+        {
+            StartCoroutine(DeactivateObstacle());
+            yield return new WaitForChangedResult();
+            if (taskManager.GetTask(out target))
+            {
+                unableToReachTarget = false;
+                agent.SetDestination(target);
+            }
+            else
+            {
+                StartCoroutine(ActivateObstacle());
+            }
         }
 
         public void Infect()
