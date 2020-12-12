@@ -166,7 +166,7 @@ namespace Profielwerkstuk
             //print("spawned player");
 
             // Infects player   
-            if (Random.Range(0.0f, 1.0f) >= Config.chanceInfected)
+            if (Random.Range(0.0f, 1.0f) <= Config.chanceInfected)
             {
                 playerMovement.Infect();
             }
