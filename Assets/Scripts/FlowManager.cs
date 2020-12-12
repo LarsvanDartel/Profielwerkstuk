@@ -193,7 +193,8 @@ namespace Profielwerkstuk
 
             taskManager.SetLeavingPos(leavingArea);
             // activates player
-            taskManager.GetTask(out playerMovement.target);
+            bool foundTask = taskManager.GetTask(out playerMovement.target);
+            
             agent.SetDestination(playerMovement.target);
             playerMovement.status = "ACTIVE";
             //print("done spawning");

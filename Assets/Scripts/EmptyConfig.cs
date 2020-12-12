@@ -6,9 +6,10 @@ namespace Profielwerkstuk {
     public class EmptyConfig
     {
         public float speed; // the speed of the simulation
-        public float coughCloudIncrease; // the rate at which the cough cloud increases and the chance decreases
-        public float infectionRateCC; // the starting chance you get infected from a cough cloud
-        public float coughDuration;
+        public float CCMaxSize; // the rate at which the cough cloud increases and the chance decreases
+        public float CCStart; // the starting chance you get infected from a cough cloud
+        public float CCDuration;
+        public float CCSteepness;
         public float minCough; // the minimal time between each cough
         public float maxCough; // the maximal time between each cough
         public float chanceInfected; // a chance 0-1 someone spawns infected
@@ -20,9 +21,10 @@ namespace Profielwerkstuk {
     }
     public static class Config {
         public static float speed; // the speed of the simulation
-        public static float coughCloudIncrease; // the rate at which the cough cloud increases and the chance decreases
-        public static float infectionRateCC; // the starting chance you get infected from a cough cloud
-        public static float coughDuration;
+        public static float CCMaxSize; // the rate at which the cough cloud increases and the chance decreases
+        public static float CCStart; // the starting chance you get infected from a cough cloud
+        public static float CCDuration;
+        public static float CCSteepness;
         public static float minCough; // the minimal time between each cough
         public static float maxCough; // the maximal time between each cough
         public static float chanceInfected; // a chance 0-1 someone spawns infected

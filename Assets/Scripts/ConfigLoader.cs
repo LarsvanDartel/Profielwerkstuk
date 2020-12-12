@@ -13,9 +13,12 @@ namespace Profielwerkstuk {
             config = JsonUtility.FromJson<EmptyConfig>(JSONFile.ToString());
 
             Config.speed = config.speed; 
-            Config.coughCloudIncrease = config.coughCloudIncrease; 
-            Config.infectionRateCC = config.infectionRateCC; 
-            Config.coughDuration = config.coughDuration; 
+
+            Config.CCMaxSize = config.CCMaxSize; 
+            Config.CCStart = config.CCStart; 
+            Config.CCSteepness = config.CCSteepness; 
+            Config.CCDuration = config.CCDuration; 
+
             Config.minCough = config.minCough;  
             Config.maxCough = config.maxCough;  
             Config.chanceInfected = config.chanceInfected; 

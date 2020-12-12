@@ -215,7 +215,7 @@ namespace Profielwerkstuk
 
         public void Infect()
         {
-            Debug.Log(name + " is infected");
+           // Debug.Log(name + " is infected");
             infected = true;
             gameObject.GetComponent<MeshRenderer>().material = infectedMaterial;
         }

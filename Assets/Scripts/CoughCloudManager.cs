@@ -5,20 +5,26 @@ namespace Profielwerkstuk {
     public class CoughCloudManager : MonoBehaviour
     {
         public float infectionRate;
-        private float sizeIncrease = Config.coughCloudIncrease;
+        public float startTime;
         private List<PlayerMovement> playersInCloud;
         void Start()
         {
             playersInCloud = new List<PlayerMovement>();
-            infectionRate = Config.infectionRateCC;
-            StartCoroutine(DestroyIn(Config.coughDuration));
+            infectionRate = Config.CCStart;
+    	    startTime = Time.time;
+            StartCoroutine(DestroyIn(Config.CCDuration));
 
         }
 
         void Update()
         {
-            transform.localScale += new Vector3(sizeIncrease*Time.deltaTime*60, sizeIncrease*Time.deltaTime*60, sizeIncrease*Time.deltaTime*60);
-            infectionRate /= 1+sizeIncrease;
+            float size = SizeFormula(Time.time-startTime);
+            print(size);
+            transform.localScale = new Vector3(size, size, size);
+            float velocity = SpeedFormula(Time.time-startTime);
+            print(velocity + " : " + (Time.time-startTime));
+            transform.GetComponent<Rigidbody>().velocity = transform.GetComponent<Rigidbody>().velocity.normalized*velocity;
+            infectionRate = InfectionFormula(Time.time-startTime);
 
             for(int i = playersInCloud.Count-1; i >= 0; i--)
             {
@@ -33,6 +39,17 @@ namespace Profielwerkstuk {
             }
         }
 
+        float SizeFormula(float x) {
+            return -Config.CCSteepness/(x+(Config.CCSteepness/Config.CCMaxSize))+Config.CCMaxSize;
+        }
+
+        float SpeedFormula(float x) {
+            return 1/((Config.CCSteepness/10)*x+(1/3f));
+        }
+
+        float InfectionFormula(float x) {
+            return 1/(Config.CCSteepness*x + 1/0.005f);
+        }
 
         IEnumerator DestroyIn(float s)
         {

@@ -67,6 +67,9 @@ namespace Profielwerkstuk
                     target = Tasks[i];
                 }
             }
+            if(!(minDistance > 0)) {
+                Debug.Log("I've fallen and I can't up");
+            }
             return minDistance > 0;
         }
         private Vector3 GetPos(Transform area)

@@ -1,11 +1,15 @@
 {
     "speed": 10,
-    "coughCloudIncrease": 0.005,
-    "infectionRateCC": 0.05,
-    "coughDuration": 5,
+
+    "CCIncreasePerFrame": 0.005,
+    "CCStart": 0.05,
+    "CCSteepness": 10,
+    "CCDuration": 45,
+    "CCMaxSize": 6,
+
     "minCough": 10,
     "maxCough": 30,
-    "chanceInfected": 0.5,
+    "chanceInfected": 0.1,
     "playersPerDay": 500,
 	"playerDistributionMean": 13,
 	"playerDistributionStandardDeviation": 4,
