@@ -64,8 +64,11 @@ namespace Profielwerkstuk
             }
             if(timesChecked == 10)
             {
-                Destroy(gameObject);
+
+                registerManager.OnLeaveRegister(register);
+                dataHoarder.OnLeave(id, infected);
                 print(name + " couldn't reach any targets, so he left. :'(");
+                Destroy(gameObject);
             }
             if (infected && !asymptomatic)
             {

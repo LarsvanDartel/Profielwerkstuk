@@ -19,7 +19,7 @@ namespace Profielwerkstuk {
         {
             if (!registerTaken.ContainsKey(register))
             {
-                print("THERE IS NO SUCH REGISTER");
+                //print("THERE IS NO SUCH REGISTER");
                 return;
             }
             registerTaken[register] = false;
@@ -36,7 +36,7 @@ namespace Profielwerkstuk {
         {
             if (!registerTaken.ContainsKey(register))
             {
-                print("THERE IS NO SUCH REGISTER");
+                //print("THERE IS NO SUCH REGISTER");
                 return;
             }
             registerTaken[register] = true;

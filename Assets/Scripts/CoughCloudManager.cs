@@ -19,10 +19,10 @@ namespace Profielwerkstuk {
         void Update()
         {
             float size = SizeFormula(Time.time-startTime);
-            print(size);
+            //print(size);
             transform.localScale = new Vector3(size, size, size);
             float velocity = SpeedFormula(Time.time-startTime);
-            print(velocity + " : " + (Time.time-startTime));
+            //print(velocity + " : " + (Time.time-startTime));
             transform.GetComponent<Rigidbody>().velocity = transform.GetComponent<Rigidbody>().velocity.normalized*velocity;
             infectionRate = InfectionFormula(Time.time-startTime);
 
