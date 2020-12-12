@@ -93,7 +93,6 @@ namespace Profielwerkstuk
         public float timeInHours;
         public float nextSpawn;
         private int index = 0;
-
         /* When spawning a new player, the following variables need to be assigned:
          * Position
          * Ground
@@ -123,9 +122,9 @@ namespace Profielwerkstuk
             for(int i = 0; i < playersPerDay; i++)
             {
                 spawningTimes.Add(Utility.NextGaussian(Config.playerDistributionMean, 
-                                                              Config.playerDistributionStandardDeviation, 
-                                                              Config.openingTime, 
-                                                              Config.closingTime));
+                                                       Config.playerDistributionStandardDeviation, 
+                                                       Config.openingTime, 
+                                                       Config.closingTime));
             }
             spawningTimes.Sort();
 
@@ -172,7 +171,10 @@ namespace Profielwerkstuk
             {
                 playerMovement.Infect();
             }
-
+            if (Random.Range(0.0f, 1.0f) <= Config.participationRate)
+            {
+                playerMovement.participating = false;
+            }
             dataHoarder.OnSpawn(player.name, playerMovement.infected);
 
             // Assigns Tasks

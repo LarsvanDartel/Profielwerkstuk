@@ -27,6 +27,7 @@ namespace Profielwerkstuk {
             Config.playerDistributionStandardDeviation = config.playerDistributionStandardDeviation;
             Config.openingTime = config.openingTime;
             Config.closingTime = config.closingTime;
+            Config.participationRate = config.participationRate;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Profielwerkstuk
 {
     public class PlayerMovement : MonoBehaviour
     {
-
+        public bool participating = true;
         public NavMeshAgent agent;
         public TaskManager taskManager;
         public NavMeshObstacle obstacle;
@@ -62,7 +62,7 @@ namespace Profielwerkstuk
             {
                 timesChecked = 0;
             }
-            if(timesChecked == 10)
+            if(timesChecked >= 10)
             {
 
                 registerManager.OnLeaveRegister(register);
@@ -85,7 +85,7 @@ namespace Profielwerkstuk
             if (unableToReachTarget && timeSinceLastCheck > 10)
             {
                 timeSinceLastCheck = 0.0f;
-                StartCoroutine(checkForTarget());
+                StartCoroutine(CheckForTarget());
                 timesChecked++;
             }
             if (unableToReachTarget)
@@ -96,7 +96,7 @@ namespace Profielwerkstuk
 
 
             // check if agent has reached goal
-            if (agent.enabled && !waiting)
+            if (agent.enabled && !waiting && !unableToReachTarget)
             {
                 var pos = transform.position;
                 if (agent.remainingDistance <= agent.stoppingDistance)
@@ -162,7 +162,7 @@ namespace Profielwerkstuk
             }
             if (!waiting)
             {
-                if(waitingFor.Count == 0 && !agent.enabled)
+                if(waitingFor.Count == 0 && !agent.enabled && !unableToReachTarget)
                 {
                     StartCoroutine(DeactivateObstacle());
                 }
@@ -192,9 +192,10 @@ namespace Profielwerkstuk
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!participating) return;
             if (other.transform.parent.name != "Players") return;
             if (other.GetComponent<NavMeshObstacle>().enabled) return;
-            if (transform.GetSiblingIndex() < other.transform.GetSiblingIndex())
+            if (transform.GetSiblingIndex() < other.transform.GetSiblingIndex() || !other.transform.GetComponent<PlayerMovement>().participating)
             {
                 if (waitingFor.Contains(other.gameObject)) return;
                 waitingFor.Add(other.gameObject);
@@ -204,6 +205,7 @@ namespace Profielwerkstuk
 
         private void OnTriggerExit(Collider other)
         {
+            if (!participating) return;
             if (other.transform.parent.name != "Players") return;
             waitingFor.Remove(other.gameObject);
         }
@@ -241,10 +243,11 @@ namespace Profielwerkstuk
             if (agent.enabled) agent.SetDestination(target);
         }
 
-        IEnumerator checkForTarget()
+        IEnumerator CheckForTarget()
         {
             StartCoroutine(DeactivateObstacle());
             yield return new WaitForChangedResult();
+            if (!agent.enabled) yield break;
             if (taskManager.GetTask(out target))
             {
                 unableToReachTarget = false;

@@ -14,5 +14,7 @@
 	"playerDistributionMean": 13,
 	"playerDistributionStandardDeviation": 4,
 	"openingTime":12,
-	"closingTime":14
+	"closingTime":14,
+
+    "participationRate":0.5
 }
