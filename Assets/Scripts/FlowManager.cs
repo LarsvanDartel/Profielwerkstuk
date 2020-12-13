@@ -176,7 +176,7 @@ namespace Profielwerkstuk
             {
                 playerMovement.Infect();
             }
-            if (Random.Range(0.0f, 1.0f) <= Config.participationRate)
+            if (Random.Range(0.0f, 1.0f) > Config.participationRate)
             {
                 playerMovement.participating = false;
             }

@@ -659,9 +659,10 @@ MonoBehaviour:
   JSONFile: {fileID: 4900000, guid: 4b114607bf2e6b24e9ada9402be1c999, type: 3}
   config:
     speed: 0
-    coughCloudIncrease: 0
-    infectionRateCC: 0
-    coughDuration: 0
+    CCMaxSize: 0
+    CCStart: 0
+    CCDuration: 0
+    CCSteepness: 0
     minCough: 0
     maxCough: 0
     chanceInfected: 0
@@ -670,6 +671,8 @@ MonoBehaviour:
     playerDistributionStandardDeviation: 0
     openingTime: 0
     closingTime: 0
+    participationRate: 0
+    visitorCap: 0
 --- !u!114 &1760870599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -726,6 +729,9 @@ MonoBehaviour:
   cam: {fileID: 963194227}
   taskPositions: []
   registerManager: {fileID: 0}
+  toSpawn: 0
+  visitorCap: 0
+  playersInStore: 0
 --- !u!4 &1766353319
 Transform:
   m_ObjectHideFlags: 0
