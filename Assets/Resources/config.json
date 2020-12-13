@@ -2,20 +2,20 @@
     "speed": 10,
 
     "CCIncreasePerFrame": 0.005,
-    "CCStart": 0.05,
+    "CCStart": 0.01,
     "CCSteepness": 10,
     "CCDuration": 45,
     "CCMaxSize": 6,
 
-    "minCough": 60,
-    "maxCough": 240,
+    "minCough": 30,
+    "maxCough": 120,
     "chanceInfected": 0.1,
     "playersPerDay": 500,
-	"playerDistributionMean": 13,
-	"playerDistributionStandardDeviation": 4,
-	"openingTime":12,
-	"closingTime":14,
+    "playerDistributionMean": 13,
+    "playerDistributionStandardDeviation": 4,
+    "openingTime":8,
+    "closingTime":17,
 
-    "participationRate":0.5,
-    "visitorCap":10
+    "participationRate":1,
+    "visitorCap":501
 }
