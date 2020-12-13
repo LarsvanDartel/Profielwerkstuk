@@ -55,7 +55,7 @@ namespace Profielwerkstuk {
         }
 
         float InfectionFormula(float x) {
-            return 1/(Config.CCSteepness*x + 1/0.005f);
+            return 1/(Config.CCSteepness*x + 1/Config.CCStart);
         }
 
         IEnumerator DestroyIn(float s)
