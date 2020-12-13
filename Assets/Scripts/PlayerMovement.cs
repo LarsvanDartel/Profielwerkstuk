@@ -121,7 +121,10 @@ namespace Profielwerkstuk
                             else if (status == "WAITING FOR REGISTER")
                             {
                                 waiting = true;
-                                StartCoroutine(ActivateObstacle());
+                                if (participating)
+                                {
+                                    StartCoroutine(ActivateObstacle());
+                                }
                             }
                             else if (status == "CHECKING OUT")
                             {
@@ -153,7 +156,10 @@ namespace Profielwerkstuk
                             {
                                 // fuk
                                 unableToReachTarget = true;
-                                StartCoroutine(ActivateObstacle());
+                                if (participating)
+                                {
+                                    StartCoroutine(ActivateObstacle());
+                                }
                             }
                             StartCoroutine(WaitForNextTask(Random.Range(5, 15)));
 
@@ -176,6 +182,7 @@ namespace Profielwerkstuk
                         continue;
                     }
                     PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+                    if (!playerMovement.participating) continue;
                     if (playerMovement.waiting || playerMovement.unableToReachTarget)
                     {
                         waitingFor.Remove(player);
@@ -214,12 +221,27 @@ namespace Profielwerkstuk
         IEnumerator WaitForNextTask(int s)
         {
             waiting = true;
-            StartCoroutine(ActivateObstacle());
+            if (!participating)
+            {
+                agent.isStopped = true;
+            }
+            if (participating)
+            {
+                StartCoroutine(ActivateObstacle());
+            }
             yield return new WaitForSeconds(s);
             waiting = false;
+            if (!participating)
+            {
+                agent.isStopped = false;
+            }
             if(status == "LEAVING")
             {
                 transform.parent.GetComponent<RegisterManager>().OnLeaveRegister(register);
+            }
+            if (!participating)
+            {
+                agent.SetDestination(target);
             }
         }
         IEnumerator ActivateObstacle()
@@ -254,7 +276,7 @@ namespace Profielwerkstuk
                 unableToReachTarget = false;
                 agent.SetDestination(target);
             }
-            else
+            else if (participating)
             {
                 StartCoroutine(ActivateObstacle());
             }
