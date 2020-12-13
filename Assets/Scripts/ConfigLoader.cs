@@ -28,6 +28,7 @@ namespace Profielwerkstuk {
             Config.openingTime = config.openingTime;
             Config.closingTime = config.closingTime;
             Config.participationRate = config.participationRate;
+            Config.visitorCap = config.visitorCap;
         }
     }
 }

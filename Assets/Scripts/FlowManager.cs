@@ -113,11 +113,16 @@ namespace Profielwerkstuk
         private List<float> spawningTimes;
         public List<Vector3> taskPositions;
         public RegisterManager registerManager;
+        public int toSpawn = 0;
+        public int visitorCap;
+        public int playersInStore = 0;
+        private int name = 1;
         // Start is called before the first frame update
         void Start()
         {
             Time.timeScale = Config.speed;
             playersPerDay = (int)Config.playersPerDay;
+            visitorCap = (int)Config.visitorCap;
             spawningTimes = new List<float>();
             for(int i = 0; i < playersPerDay; i++)
             {
@@ -134,7 +139,7 @@ namespace Profielwerkstuk
 
         }
 
-        IEnumerator SpawnPlayer(string name)
+        IEnumerator SpawnPlayer()
         {
             //print("spawning...");
             var minX = spawningArea.position.x - spawningArea.localScale.x / 2;
@@ -158,11 +163,11 @@ namespace Profielwerkstuk
             // Spawns player
             GameObject player = Instantiate(playerPrefab, hit.position, Quaternion.identity, transform);
             yield return new WaitForEndOfFrame();
-            player.name = name;
+            player.name = ""+name;
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
             playerMovement.coughCloudParent = coughClouds;
             playerMovement.dataHoarder = dataHoarder;
-            playerMovement.id = name;
+            playerMovement.id = ""+name;
             playerMovement.registerManager = registerManager;
             //print("spawned player");
 
@@ -202,7 +207,8 @@ namespace Profielwerkstuk
             agent.SetDestination(playerMovement.target);
             playerMovement.status = "ACTIVE";
             //print("done spawning");
-
+            playersInStore++;
+            name++;
         }
 
         /*IEnumerator spawnPlayers(int numPlayers)
@@ -254,10 +260,27 @@ namespace Profielwerkstuk
                 {
                     // print("Spawning player");
                     index++;
-                    StartCoroutine(SpawnPlayer("" + index));
+                    if (playersInStore < visitorCap)
+                    {
+                        StartCoroutine(SpawnPlayer());
+                    }
+                    else
+                    {
+                        toSpawn++;
+                    }
                     nextSpawn = spawningTimes[index];
                     // print("Spawned player");
                 }
+            }
+        }
+
+        public void OnPlayerLeave()
+        {
+            playersInStore--;
+            if(toSpawn > 0)
+            {
+                StartCoroutine(SpawnPlayer());
+                toSpawn--;
             }
         }
 

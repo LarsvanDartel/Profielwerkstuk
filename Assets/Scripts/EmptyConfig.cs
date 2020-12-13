@@ -19,6 +19,7 @@ namespace Profielwerkstuk {
         public float openingTime; // the shop's opening time
         public float closingTime; // the shop's closing time
         public float participationRate;
+        public float visitorCap;
     }
     public static class Config {
         public static float speed; // the speed of the simulation
@@ -35,5 +36,6 @@ namespace Profielwerkstuk {
         public static float openingTime; // the shop's opening time
         public static float closingTime; // the shop's closing time
         public static float participationRate;
+        public static float visitorCap;
     }
 }

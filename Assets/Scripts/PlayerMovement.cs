@@ -64,7 +64,7 @@ namespace Profielwerkstuk
             }
             if(timesChecked >= 10)
             {
-
+                transform.parent.GetComponent<FlowManager>().OnPlayerLeave();
                 registerManager.OnLeaveRegister(register);
                 dataHoarder.OnLeave(id, infected);
                 print(name + " couldn't reach any targets, so he left. :'(");
@@ -138,6 +138,7 @@ namespace Profielwerkstuk
                                 {
                                     transform.parent.GetComponent<FlowManager>().onLastPlayerLeave();
                                 }
+                                transform.parent.GetComponent<FlowManager>().OnPlayerLeave();
                                 Destroy(gameObject);
                                 return;
                             }
