@@ -10,11 +10,11 @@
     "minCough": 30,
     "maxCough": 120,
     "chanceInfected": 0.1,
-    "playersPerDay": 500,
+    "playersPerDay": 10,
     "playerDistributionMean": 13,
     "playerDistributionStandardDeviation": 4,
     "openingTime":8,
-    "closingTime":17,
+    "closingTime":8.2,
 
     "participationRate":0,
     "visitorCap":501

@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 namespace Profielwerkstuk { 
     public class DataHoarder : MonoBehaviour {
+        public FlowManager flowManager;
         private OutputData outputData = new OutputData();
         public void OnSpawn(string id, bool infected) {
             outputData.shoppers.Add(new Shopper(id, infected));
@@ -27,6 +28,8 @@ namespace Profielwerkstuk {
                 sr.WriteLine(shopper.id + ";" + shopper.infectedStart + ";" + shopper.infectedEnd + ";" + shopper.timeSpawned.ToString(ci) + ";" + shopper.timeDespawned.ToString(ci));
             }
             sr.Close();
+            flowManager.ReStart();
+            outputData = new OutputData();
         }
     }
 

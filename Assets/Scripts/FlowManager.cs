@@ -116,10 +116,21 @@ namespace Profielwerkstuk
         public int toSpawn = 0;
         public int visitorCap;
         public int playersInStore = 0;
-        private int name = 1;
+        private int _name = 1;
         // Start is called before the first frame update
         void Start()
         {
+            ReStart();
+        }
+        public void ReStart()
+        {
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            index = 0;
+            toSpawn = 0;
+            playersInStore = 0;
+            _name = 1;
             Time.timeScale = Config.speed;
             playersPerDay = (int)Config.playersPerDay;
             visitorCap = (int)Config.visitorCap;
@@ -163,11 +174,11 @@ namespace Profielwerkstuk
             // Spawns player
             GameObject player = Instantiate(playerPrefab, hit.position, Quaternion.identity, transform);
             yield return new WaitForEndOfFrame();
-            player.name = ""+name;
+            player.name = ""+_name;
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
             playerMovement.coughCloudParent = coughClouds;
             playerMovement.dataHoarder = dataHoarder;
-            playerMovement.id = ""+name;
+            playerMovement.id = ""+_name;
             playerMovement.registerManager = registerManager;
             //print("spawned player");
 
@@ -208,7 +219,7 @@ namespace Profielwerkstuk
             playerMovement.status = "ACTIVE";
             //print("done spawning");
             playersInStore++;
-            name++;
+            _name++;
         }
 
         /*IEnumerator spawnPlayers(int numPlayers)
@@ -280,11 +291,5 @@ namespace Profielwerkstuk
                 toSpawn--;
             }
         }
-
-        public void onLastPlayerLeave()
-        {
-
-        }
-
     }
 }
