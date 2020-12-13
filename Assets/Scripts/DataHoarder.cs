@@ -22,7 +22,7 @@ namespace Profielwerkstuk {
         public void OnEnd() {
             //string csvFile = "";
             CultureInfo ci = new CultureInfo("nl-NL");
-            var sr = File.CreateText("woopers.csv");
+            var sr = File.CreateText("data" + flowManager.iteration + ".csv");
             sr.WriteLine("ID;Infected Start;Infected End;Time Start;Time End");
             foreach(Shopper shopper in outputData.shoppers) {
                 sr.WriteLine(shopper.id + ";" + shopper.infectedStart + ";" + shopper.infectedEnd + ";" + shopper.timeSpawned.ToString(ci) + ";" + shopper.timeDespawned.ToString(ci));

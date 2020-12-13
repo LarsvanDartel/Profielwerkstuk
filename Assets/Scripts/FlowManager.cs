@@ -117,6 +117,7 @@ namespace Profielwerkstuk
         public int visitorCap;
         public int playersInStore = 0;
         private int _name = 1;
+        public int iteration = 0;
         // Start is called before the first frame update
         void Start()
         {
@@ -124,6 +125,7 @@ namespace Profielwerkstuk
         }
         public void ReStart()
         {
+            iteration++;
             hours = 0;
             minutes = 0;
             seconds = 0;
