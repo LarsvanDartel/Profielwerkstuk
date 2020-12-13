@@ -4,6 +4,7 @@ using System.Globalization;
 using UnityEngine;
 namespace Profielwerkstuk { 
     public class DataHoarder : MonoBehaviour {
+        public FlowManager flowManager;
         private OutputData outputData = new OutputData();
         public void OnSpawn(string id, bool infected) {
             outputData.shoppers.Add(new Shopper(id, infected));
@@ -24,6 +25,8 @@ namespace Profielwerkstuk {
                 csvFile += shopper.id + ";" + shopper.infectedStart + ";" + shopper.infectedEnd + ";" + shopper.timeSpawned.ToString(ci) + ";" + shopper.timeDespawned.ToString(ci) + "\n";
             }
             print(csvFile);
+            flowManager.ReStart();
+            outputData = new OutputData();
         }
     }
 

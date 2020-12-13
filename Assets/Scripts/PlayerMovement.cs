@@ -135,13 +135,9 @@ namespace Profielwerkstuk
                             }
                             else if (status == "LEAVING")
                             {
+                                transform.parent.GetComponent<FlowManager>().OnPlayerLeave();
                                 dataHoarder.OnLeave(id, infected);
                                 // print(name + " HAS LEFT");
-                                if (id == "" + Config.playersPerDay)
-                                {
-                                    transform.parent.GetComponent<FlowManager>().onLastPlayerLeave();
-                                }
-                                transform.parent.GetComponent<FlowManager>().OnPlayerLeave();
                                 Destroy(gameObject);
                                 return;
                             }
