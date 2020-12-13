@@ -16,13 +16,15 @@ namespace Profielwerkstuk {
             shopper.infectedEnd = infected;
             shopper.timeDespawned = Time.time;
             outputData.peopleLeft++;
+            print((outputData.peopleLeft/Config.playersPerDay)*100 + "%");
             //print(shopper.timeDespawned);
             if(outputData.peopleLeft == Config.playersPerDay) OnEnd();
         }
         public void OnEnd() {
             //string csvFile = "";
             CultureInfo ci = new CultureInfo("nl-NL");
-            var sr = File.CreateText("data" + flowManager.iteration + ".csv");
+            string fileName = "data" + flowManager.iteration + "-" + Random.Range(1000,9999) + ".csv";
+            var sr = File.CreateText(fileName);
             sr.WriteLine("ID;Infected Start;Infected End;Time Start;Time End");
             foreach(Shopper shopper in outputData.shoppers) {
                 sr.WriteLine(shopper.id + ";" + shopper.infectedStart + ";" + shopper.infectedEnd + ";" + shopper.timeSpawned.ToString(ci) + ";" + shopper.timeDespawned.ToString(ci));

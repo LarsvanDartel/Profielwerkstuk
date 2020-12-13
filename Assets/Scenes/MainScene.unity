@@ -685,6 +685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8feebd0d5b1354e9b33a6cab1c4c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  flowManager: {fileID: 1766353318}
 --- !u!1 &1766353317
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,6 +733,7 @@ MonoBehaviour:
   toSpawn: 0
   visitorCap: 0
   playersInStore: 0
+  iteration: 0
 --- !u!4 &1766353319
 Transform:
   m_ObjectHideFlags: 0
