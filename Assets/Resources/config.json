@@ -11,20 +11,11 @@
     "maxCough": 120,
     "chanceInfected": 0.1,
     "playersPerDay": 500,
-<<<<<<< HEAD
-	"playerDistributionMean": 13,
-	"playerDistributionStandardDeviation": 4,
-	"openingTime":8,
-	"closingTime":17,
-
-    "participationRate":0.5,
-=======
     "playerDistributionMean": 13,
     "playerDistributionStandardDeviation": 4,
     "openingTime":8,
     "closingTime":17,
 
     "participationRate":1,
->>>>>>> 0173bbdc66345cb0d9454210d77c42616b774aa4
     "visitorCap":501
 }
