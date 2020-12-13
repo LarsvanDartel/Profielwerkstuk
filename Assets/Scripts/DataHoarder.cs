@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using UnityEngine;
 namespace Profielwerkstuk { 
     public class DataHoarder : MonoBehaviour {
@@ -18,12 +19,14 @@ namespace Profielwerkstuk {
             if(outputData.peopleLeft == Config.playersPerDay) OnEnd();
         }
         public void OnEnd() {
-            string csvFile = "";
+            //string csvFile = "";
             CultureInfo ci = new CultureInfo("nl-NL");
+            var sr = File.CreateText("woopers.csv");
+            sr.WriteLine("ID;Infected Start;Infected End;Time Start;Time End");
             foreach(Shopper shopper in outputData.shoppers) {
-                csvFile += shopper.id + ";" + shopper.infectedStart + ";" + shopper.infectedEnd + ";" + shopper.timeSpawned.ToString(ci) + ";" + shopper.timeDespawned.ToString(ci) + "\n";
+                sr.WriteLine(shopper.id + ";" + shopper.infectedStart + ";" + shopper.infectedEnd + ";" + shopper.timeSpawned.ToString(ci) + ";" + shopper.timeDespawned.ToString(ci));
             }
-            print(csvFile);
+            sr.Close();
         }
     }
 
