@@ -249,12 +249,8 @@ namespace Profielwerkstuk
             minutes %= 60;
 
             timeInHours = hours + (minutes + seconds / 60) / 60;
-            if(Config.closingTime < timeInHours) {
-                dataHoarder.OnEnd();
-                return;
-            }
 
-            if(index < spawningTimes.Count-1)
+            if(index < spawningTimes.Count)
             {
                 if(timeInHours > nextSpawn)
                 {
@@ -268,6 +264,7 @@ namespace Profielwerkstuk
                     {
                         toSpawn++;
                     }
+                    if(index < spawningTimes.Count)
                     nextSpawn = spawningTimes[index];
                     // print("Spawned player");
                 }
