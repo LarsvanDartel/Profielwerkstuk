@@ -7,8 +7,8 @@
     "CCDuration": 45,
     "CCMaxSize": 6,
 
-    "minCough": 10,
-    "maxCough": 30,
+    "minCough": 60,
+    "maxCough": 240,
     "chanceInfected": 0.1,
     "playersPerDay": 500,
 	"playerDistributionMean": 13,
