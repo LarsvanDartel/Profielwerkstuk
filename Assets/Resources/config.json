@@ -16,6 +16,6 @@
     "openingTime":8,
     "closingTime":17,
 
-    "participationRate":1,
-    "visitorCap":501
+    "participationRate":0,
+    "visitorCap":20
 }
